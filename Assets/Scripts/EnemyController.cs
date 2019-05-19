@@ -14,9 +14,12 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         gameObject.layer = 9;
+        AssignTarget("Cargo");
+
         thruster = GetComponent<EnemyThruster>();
-        target = GameObject.Find("PlayerShip").transform;
+        thruster.SetThrustBase(8f);
         thruster.SetThrustV(1f);// Go forward
+
         weapon = GetComponent<Weapon>();
         weapon.origin = 1;
         // Bit shift the index of the layer (8) to get a bit mask. This would be 0000000100000000, with 1 starting all the way on the right and moving 8 steps to the left.
@@ -30,7 +33,7 @@ public class EnemyController : MonoBehaviour
     {
 
         // Rotate
-        if (target)
+        if (target && target.gameObject.activeSelf)
         {
             float dist = Vector3.Distance(target.position, transform.position);
             if(dist>30f)
@@ -44,13 +47,50 @@ public class EnemyController : MonoBehaviour
                 FireWeapon();
             }
         }
+        else
+        {
+            AssignTarget("Cargo");
+        }
 
 
     }
 
+    public void AssignTarget(string findTag)
+    {
+        GameObject cargo = FindClosestTag(findTag);
+        if (cargo != null)
+        {
+            target = cargo.transform;
+        }
+        else
+        {
+            target = null;
+        }
+    }
 
     public void FireWeapon()
     {
         weapon.Fire();// Fire a burst
     }
+
+    private GameObject FindClosestTag(string mytag)
+    {
+        GameObject[] gos;
+        gos = GameObject.FindGameObjectsWithTag(mytag);
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+        foreach (GameObject go in gos)
+        {
+            Vector3 diff = go.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = go;
+                distance = curDistance;
+            }
+        }
+        return closest;
+    }
+
 }

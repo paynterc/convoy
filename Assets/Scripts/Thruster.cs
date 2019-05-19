@@ -11,7 +11,7 @@ public class Thruster : MonoBehaviour
     private float thrustVertical=0;// 1 or 0
     private float thrustSpeedBase = 5.0f;
     public float thrustSpeedCurr;
-    private float thrustDragBase = 0.25f;
+    public float thrustDragBase = 0.25f;
     private float thrustDragCurr;
     private float thrustBoostBase = 30.0f;
     public float thrustBoostCurr;
@@ -23,9 +23,9 @@ public class Thruster : MonoBehaviour
     private float rotateH = 0;
     private float rotateV = 0;
     private float rotateZ = 0;
-    private float rotateSpeedBase = 1.0f;
+    public float rotateSpeedBase = 1.0f;
     private float rotateSpeedCurr;
-    private float rotateDragBase = 2.0f;
+    public float rotateDragBase = 2.0f;
     private float rotateDragCurr;
     private bool rotationBrake = false;
 
@@ -110,12 +110,19 @@ public class Thruster : MonoBehaviour
         rb.drag = thrustDragCurr;
     }
 
-    public virtual void Brake()
+    public virtual void BrakeOn()
     {
         thrustDragCurr = thrustDragBase * 10f;
         rotateDragCurr = rotateDragBase * 10f;
+        thrustSpeedCurr = 0;
     }
 
+    public virtual void BrakeOff()
+    {
+        thrustDragCurr = thrustDragBase;
+        rotateDragCurr = rotateDragBase;
+        thrustSpeedCurr = thrustSpeedBase;
+    }
 
     public virtual void StartBoost()
     {
@@ -183,6 +190,16 @@ public class Thruster : MonoBehaviour
         SetRotateH(rH);
         SetRotateV(rV);
         SetRotateZ(rZ);
+    }
+
+    public void SetThrustSpeed(float S)
+    {
+        thrustSpeedCurr = S;
+    }
+
+    public void SetThrustBase(float S)
+    {
+        thrustSpeedBase = S;
     }
 
     public virtual void SetTargetDirection(Vector3 d)
