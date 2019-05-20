@@ -33,7 +33,7 @@ public class LevelController : MonoBehaviour
 
         CreateHaulers();
 
-
+        Time.timeScale = 1.0f;
     }
 
     // Update is called once per frame
@@ -92,7 +92,7 @@ public class LevelController : MonoBehaviour
         int zz = 0;
         for (int i = 0; i < 5; i++)
         {
-            Vector3 startPos = new Vector3(0, 0, zz);
+            Vector3 startPos = new Vector3(0, 20, zz);
             SpawnHauler(startPos);
             zz -= 20;
         }

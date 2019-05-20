@@ -9,11 +9,11 @@ public class Thruster : MonoBehaviour
     // Movement
     private float thrustHorizontal=0;// 1 or 0
     private float thrustVertical=0;// 1 or 0
-    private float thrustSpeedBase = 5.0f;
+    public float thrustSpeedBase = 5.0f;
     public float thrustSpeedCurr;
     public float thrustDragBase = 0.25f;
-    private float thrustDragCurr;
-    private float thrustBoostBase = 30.0f;
+    public float thrustDragCurr;
+    public float thrustBoostBase = 30.0f;
     public float thrustBoostCurr;
     private float thrustBoostFrames = 1;
     private ForceMode forceModeBase = ForceMode.Force;
@@ -30,8 +30,8 @@ public class Thruster : MonoBehaviour
     private bool rotationBrake = false;
 
     // Timers
-    private float boostRateBase = 2.0f;// Time between boosts
-    private float boostRateCurr;
+    public float boostRateBase = 2.0f;// Time between boosts
+    public float boostRateCurr;
     private float boostCooldownTimer = 0;// Keep track of time to next boost.
     private bool boosting = false;// Boosting or not
     private int boostTimer = 0;// Keep track of time for current boost

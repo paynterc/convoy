@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    private EnemyThruster thruster;
+    private Thruster thruster;
     // The target marker.
     public Transform target;
 
@@ -16,7 +16,7 @@ public class EnemyController : MonoBehaviour
         gameObject.layer = 9;
         AssignTarget("Cargo");
 
-        thruster = GetComponent<EnemyThruster>();
+        thruster = GetComponent<Thruster>();
         thruster.SetThrustBase(8f);
         thruster.SetThrustV(1f);// Go forward
 
