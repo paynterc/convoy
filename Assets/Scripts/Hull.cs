@@ -5,8 +5,8 @@ public class Hull : MonoBehaviour
 {
 
     public float hullBase = 10f;
-    private float hullCurr;
-    private Explosion explosion;
+    protected float hullCurr;
+    protected Explosion explosion;
     // Use this for initialization
     void Start()
     {
@@ -14,13 +14,8 @@ public class Hull : MonoBehaviour
         explosion = GameObject.Find("Explosion").GetComponent<Explosion>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
-
-    public void ApplyDamage(float D)
+    public virtual void ApplyDamage(float D)
     {
         hullCurr -= D;
         if (hullCurr <= 0)
@@ -30,10 +25,9 @@ public class Hull : MonoBehaviour
 
     }
 
-    public void Explode()
+    public virtual void Explode()
     {
         explosion.Explode(transform.position);
-        //gameObject.SetActive(false);
         Destroy(gameObject);
     }
 }

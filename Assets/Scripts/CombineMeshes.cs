@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(MeshRenderer))]
 public class CombineMeshes : MonoBehaviour
 {
-    //public Material material;
+    // https://www.habrador.com/tutorials/unity-mesh-combining-tutorial/3-combine-meshes-colors/
 
     // Start is called before the first frame update
     void Start()

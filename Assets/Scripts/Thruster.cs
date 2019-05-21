@@ -15,7 +15,6 @@ public class Thruster : MonoBehaviour
     public float thrustDragCurr;
     public float thrustBoostBase = 30.0f;
     public float thrustBoostCurr;
-    private float thrustBoostFrames = 1;
     private ForceMode forceModeBase = ForceMode.Force;
     private ForceMode forceModeCurr;
 
@@ -27,7 +26,6 @@ public class Thruster : MonoBehaviour
     private float rotateSpeedCurr;
     public float rotateDragBase = 2.0f;
     private float rotateDragCurr;
-    private bool rotationBrake = false;
 
     // Timers
     public float boostRateBase = 2.0f;// Time between boosts
@@ -205,5 +203,10 @@ public class Thruster : MonoBehaviour
     public virtual void SetTargetDirection(Vector3 d)
     {
         targetDir = d;
+    }
+
+    public float GetBoostCooldownTime()
+    {
+        return boostCooldownTimer;
     }
 }

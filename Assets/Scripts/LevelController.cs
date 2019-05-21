@@ -7,6 +7,8 @@ public class LevelController : MonoBehaviour
     public int maxEmy = 18;
     private float spawnTimer=0f;
     public float spawnInterval = 5f;
+    private float spawnBossTimer = 0f;
+    public float spawnBossInterval = 15f;
     private Object enemyPrefab;
     private Object checkpointPrefab;
     private Object haulerPrefab;
@@ -15,6 +17,7 @@ public class LevelController : MonoBehaviour
     List<GameObject> checkpoints = new List<GameObject>();
     int checkpointCurrent = 0;// Pointer for the current checkpoint
     List<GameObject> haulers = new List<GameObject>();
+    public GameObject bossPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -24,12 +27,9 @@ public class LevelController : MonoBehaviour
         checkpointPrefab = Resources.Load("Checkpoint");
         haulerPrefab = Resources.Load("Hauler");
 
-
         spawnTimer = Time.time + spawnInterval;
-
-
+        spawnBossTimer = Time.time + spawnBossInterval;
         CreateCheckpoints();
-        // Update lead hauler with first checkpoint
 
         CreateHaulers();
 
@@ -41,6 +41,7 @@ public class LevelController : MonoBehaviour
     {
         enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
         EnemySpawner();
+        SpawnBoss();
 
     }
 
@@ -64,9 +65,23 @@ public class LevelController : MonoBehaviour
 
     private void SpawnEnemy(Vector3 startPos)
     {
-        Debug.Log("SPAWN");
 
         GameObject newEnemy = Instantiate(enemyPrefab, startPos, Quaternion.identity) as GameObject;
+    }
+
+    private void SpawnBoss()
+    {
+        if (Time.time > spawnBossTimer)
+        {
+            spawnBossTimer = Time.time + spawnBossInterval;
+            int m = 1;
+            int xx = Random.Range(100 * m, 300 * m);
+            int yy = Random.Range(100 * m, 300 * m);
+            int zz = Random.Range(100 * m, 300 * m);
+            Vector3 startPos = new Vector3(xx, yy, zz);
+
+            GameObject newBoss = Instantiate(bossPrefab, startPos, Quaternion.identity) as GameObject;
+        }
     }
 
     private void CreateCheckpoints()
@@ -97,6 +112,7 @@ public class LevelController : MonoBehaviour
             zz -= 20;
         }
         SetHaulerTargets();
+        EventManager.TriggerEvent("cargoUpdate");
     }
 
     private void SpawnHauler(Vector3 startPos)

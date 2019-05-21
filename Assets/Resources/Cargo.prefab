@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 117072274869330348}
   - component: {fileID: 6051534494984626173}
   - component: {fileID: 2635365077574288977}
-  - component: {fileID: 2025853719633198661}
   - component: {fileID: 2280555193220769641}
   - component: {fileID: 1496592966877155939}
   - component: {fileID: 6154883740064783508}
+  - component: {fileID: 6476651089387682241}
   m_Layer: 0
   m_Name: Cargo
   m_TagString: Cargo
@@ -94,19 +94,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 343cd081dcb164bfb83d8b13159acdb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2025853719633198661
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 444143048067876223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e44612aa7767f4c85aba559ca9c5dc40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hullBase: 10
 --- !u!54 &2280555193220769641
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -150,3 +137,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorStart: {r: 1, g: 0.30352375, b: 0, a: 1}
+--- !u!114 &6476651089387682241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444143048067876223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 417ff8974275e4a8fbb96d9b5a9126f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hullBase: 10
