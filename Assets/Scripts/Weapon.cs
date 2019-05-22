@@ -100,7 +100,7 @@ public class Weapon : MonoBehaviour
             Hull hull = hit.transform.GetComponent<Hull>();
             if (hull != null)
             {
-                hit.transform.GetComponent<Hull>().ApplyDamage(damage);
+                hit.transform.GetComponent<Hull>().ApplyDamage(damage,hit.point);
             }
 
         }
