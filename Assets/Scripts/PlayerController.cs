@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
         fovMax = playercamera.fieldOfView;
         fov = fovMax;
         Cursor.lockState = CursorLockMode.Locked;
-        weapon.hitLayer = 1 << 9;
+        weapon.layerMask = 1 << 9;
 
 
     }
@@ -80,6 +80,16 @@ public class PlayerController : MonoBehaviour
                 zooming = true;// Zoom out
             }
 
+        }
+
+        if (Input.GetButton("Brake"))
+        {
+            Debug.Log("braking");
+            thruster.BrakeOn();
+        }
+        else
+        {
+            thruster.BrakeOff();
         }
 
         if (!zooming && zoomed && Time.time > zoomDurationTimer)

@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1052108941215538330}
   - component: {fileID: 1052108941215538406}
-  - component: {fileID: 1052108941215538332}
   - component: {fileID: 5517092566040667665}
   - component: {fileID: 2478404448051775055}
   - component: {fileID: 6724274895941002874}
   - component: {fileID: 373091190863640085}
   - component: {fileID: 3659644728674394997}
+  - component: {fileID: 3855822267909967922}
   m_Layer: 9
   m_Name: EnemyShip
   m_TagString: Enemy
@@ -54,19 +54,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1052108941215538332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1052108941215538407}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b35055dc095a470889f9152ba334134, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
 --- !u!114 &5517092566040667665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,26 +218,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9d3ab27b9a7742ecac7585cd97f1609, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thrustSpeedBase: 8
   thrustSpeedCurr: 0
   thrustDragBase: 0.25
+  thrustDragCurr: 0
+  thrustBoostBase: 30
   thrustBoostCurr: 0
   rotateSpeedBase: 0.5
   rotateDragBase: 2
+  boostRateBase: 2
+  boostRateCurr: 0
   targetDir: {x: 0, y: 0, z: 0}
   rotateTo: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &7497941622704909853
+--- !u!114 &3855822267909967922
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6341455569884996714}
+  m_GameObject: {fileID: 1052108941215538407}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53a2b85a61f7242529e5808e16ff3376, type: 3}
+  m_Script: {fileID: 11500000, guid: 83f77cfd0a6724fa9b9ae863398069b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorStart: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 1}
+  thruster: {fileID: 0}
+  weapon: {fileID: 0}
+  target: {fileID: 0}
+  layer: 9
+  targetTag: Cargo
 --- !u!114 &7808481999420481757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,32 +260,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorStart: {r: 0, g: 0.49529266, b: 1, a: 1}
---- !u!114 &7981279840021702022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7417282035403684833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53a2b85a61f7242529e5808e16ff3376, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colorStart: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 1}
---- !u!114 &4508860206146892034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8748265934383480573}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53a2b85a61f7242529e5808e16ff3376, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colorStart: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 1}
 --- !u!1001 &7514842748354899270
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -368,24 +338,6 @@ Transform:
 --- !u!1 &7237027741337163739 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 875109865063824029, guid: 4ac0d2a3f3fca437fa7be3c4e28cfdb0,
-    type: 3}
-  m_PrefabInstance: {fileID: 7514842748354899270}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8748265934383480573 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1234549446848467899, guid: 4ac0d2a3f3fca437fa7be3c4e28cfdb0,
-    type: 3}
-  m_PrefabInstance: {fileID: 7514842748354899270}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &6341455569884996714 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3480004415714740524, guid: 4ac0d2a3f3fca437fa7be3c4e28cfdb0,
-    type: 3}
-  m_PrefabInstance: {fileID: 7514842748354899270}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7417282035403684833 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1055371855776601767, guid: 4ac0d2a3f3fca437fa7be3c4e28cfdb0,
     type: 3}
   m_PrefabInstance: {fileID: 7514842748354899270}
   m_PrefabAsset: {fileID: 0}

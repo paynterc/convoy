@@ -6,9 +6,9 @@ public class LevelController : MonoBehaviour
 {
     public int maxEmy = 18;
     private float spawnTimer=0f;
-    public float spawnInterval = 5f;
+    public float spawnInterval = 15f;
     private float spawnBossTimer = 0f;
-    public float spawnBossInterval = 15f;
+    public float spawnBossInterval = 120f;
     private Object enemyPrefab;
     private Object checkpointPrefab;
     private Object haulerPrefab;
@@ -18,6 +18,7 @@ public class LevelController : MonoBehaviour
     int checkpointCurrent = 0;// Pointer for the current checkpoint
     List<GameObject> haulers = new List<GameObject>();
     public GameObject bossPrefab;
+    private bool bossSpawned = false;
 
     // Start is called before the first frame update
     void Start()
@@ -71,8 +72,9 @@ public class LevelController : MonoBehaviour
 
     private void SpawnBoss()
     {
-        if (Time.time > spawnBossTimer)
+        if (Time.time > spawnBossTimer && !bossSpawned)
         {
+            bossSpawned = true;
             spawnBossTimer = Time.time + spawnBossInterval;
             int m = 1;
             int xx = Random.Range(100 * m, 300 * m);
@@ -81,6 +83,8 @@ public class LevelController : MonoBehaviour
             Vector3 startPos = new Vector3(xx, yy, zz);
 
             GameObject newBoss = Instantiate(bossPrefab, startPos, Quaternion.identity) as GameObject;
+
+            spawnInterval = spawnInterval * 3;// Reduce the rate of drone spawns
         }
     }
 

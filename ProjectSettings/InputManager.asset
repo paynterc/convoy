@@ -313,8 +313,8 @@ InputManager:
     m_Name: Brake
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: space
+    negativeButton: right shift
+    positiveButton: left shift
     altNegativeButton: 
     altPositiveButton: 
     gravity: 3

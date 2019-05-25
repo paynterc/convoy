@@ -19,7 +19,9 @@ public class Weapon : MonoBehaviour
 
     public int origin = 0;// 0 for player, 1 for other. This will determine where the raycast begins: player camera or transform.position.
     protected bool hitscan;
-    public LayerMask hitLayer = 1 << 9;
+    // layerMask = 1 << 8. This would cast rays only against colliders in layer 8.
+    // But instead, if we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask. layerMask = ~layerMask;
+    public LayerMask layerMask = 1 << 8;
     public Material lineMaterial;
 
     // Start is called before the first frame update
@@ -87,12 +89,12 @@ public class Weapon : MonoBehaviour
             // Raycast from camera
 
             Vector3 rayOrigin = playercamera.ViewportToWorldPoint(new Vector3(.5f, .5f, 0));
-            hitscan = Physics.Raycast(rayOrigin, playercamera.transform.forward, out hit, range, hitLayer);
+            hitscan = Physics.Raycast(rayOrigin, playercamera.transform.forward, out hit, range, layerMask);
         }
         else
         {
 
-            hitscan = Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, range, hitLayer);
+            hitscan = Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, range, layerMask);
         }
 
         if (hitscan)

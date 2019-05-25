@@ -557,8 +557,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: decb6cf8ade84404da747ca8adb2e0ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  burstRate: 1
-  burstMagnitude: 3
   fireRate: 0.1
   fireDuration: 0.05
   damage: 1
@@ -567,6 +565,7 @@ MonoBehaviour:
   hitLayer:
     serializedVersion: 2
     m_Bits: 9
+  lineMaterial: {fileID: 0}
 --- !u!4 &414000125 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6844596818843739038, guid: e885c8edb0012489d9b214d5bddf1dae,
@@ -810,12 +809,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 180
       objectReference: {fileID: 0}
-    - target: {fileID: 6844596817527926739, guid: e885c8edb0012489d9b214d5bddf1dae,
+    - target: {fileID: 6844596818257475130, guid: e885c8edb0012489d9b214d5bddf1dae,
         type: 3}
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6844596818257475130, guid: e885c8edb0012489d9b214d5bddf1dae,
+    - target: {fileID: 6844596817527926739, guid: e885c8edb0012489d9b214d5bddf1dae,
         type: 3}
       propertyPath: m_Layer
       value: 0
@@ -1122,7 +1121,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxEmy: 9
-  spawnInterval: 5
+  spawnInterval: 30
+  spawnBossInterval: 10
+  bossPrefab: {fileID: 0}
 --- !u!4 &1552652232
 Transform:
   m_ObjectHideFlags: 0
@@ -1339,8 +1340,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7af95e269a01b46f79e8bb35b3bcdad0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thrustSpeedBase: 5
   thrustSpeedCurr: 0
+  thrustDragBase: 0.25
+  thrustDragCurr: 0
+  thrustBoostBase: 30
   thrustBoostCurr: 0
+  rotateSpeedBase: 1
+  rotateDragBase: 2
+  boostRateBase: 2
+  boostRateCurr: 0
   targetDir: {x: 0, y: 0, z: 0}
   rotateTo: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &1748485841
@@ -1355,6 +1364,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 302257edfe744450d87f1abc8660ea8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fovMin: 20
+  fovInc: 120
+  fov: 0
+  zoomDuration: 2
+  zoomRate: 3
+  timeMin: 0.5
 --- !u!54 &1748485842
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1727,12 +1742,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6844596817527926739, guid: e885c8edb0012489d9b214d5bddf1dae,
+    - target: {fileID: 6844596818257475130, guid: e885c8edb0012489d9b214d5bddf1dae,
         type: 3}
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6844596818257475130, guid: e885c8edb0012489d9b214d5bddf1dae,
+    - target: {fileID: 6844596817527926739, guid: e885c8edb0012489d9b214d5bddf1dae,
         type: 3}
       propertyPath: m_Layer
       value: 0

@@ -110,16 +110,16 @@ public class Thruster : MonoBehaviour
 
     public virtual void BrakeOn()
     {
-        thrustDragCurr = thrustDragBase * 10f;
-        rotateDragCurr = rotateDragBase * 10f;
-        thrustSpeedCurr = 0;
+        thrustDragCurr = thrustDragBase * 5f;
+        rotateDragCurr = rotateDragBase * 5f;
+        //thrustSpeedCurr = 0;
     }
 
     public virtual void BrakeOff()
     {
         thrustDragCurr = thrustDragBase;
         rotateDragCurr = rotateDragBase;
-        thrustSpeedCurr = thrustSpeedBase;
+        //thrustSpeedCurr = thrustSpeedBase;
     }
 
     public virtual void StartBoost()

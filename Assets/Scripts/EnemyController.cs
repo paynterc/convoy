@@ -25,7 +25,8 @@ public class EnemyController : MonoBehaviour
         // Bit shift the index of the layer (8) to get a bit mask. This would be 0000000100000000, with 1 starting all the way on the right and moving 8 steps to the left.
         // This number is the same as 256. 1<<9 would be 512. 1<<10 would be 1024.
         // For multiple layers  (1<<8) | (1<<10);
-        weapon.hitLayer = 1 << 8;// Ignore all but 8
+        weapon.layerMask = 1 << 8;// Ignore all but 8
+
     }
 
     // Update is called once per frame
@@ -51,7 +52,10 @@ public class EnemyController : MonoBehaviour
         {
             AssignTarget("Cargo");
         }
-
+        if (target==null)
+        {
+            thruster.thrustSpeedCurr = 0f;
+        }
 
     }
 
