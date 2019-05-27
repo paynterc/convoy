@@ -36,7 +36,7 @@ public class HaulerController : MonoBehaviour
             {
                 thruster.SetThrustV(0f);// Stop
                 thruster.BrakeOn();
-                levelController.ProcessArrival(gameObject);
+                levelController.ProcessArrival(gameObject,target.gameObject);
             }
 
         }

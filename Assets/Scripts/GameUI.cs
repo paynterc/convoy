@@ -17,6 +17,8 @@ public class GameUI : MonoBehaviour
 
     private int cargoCount = 0;
     public Text cargoText;
+    public Text savedCargoText;
+
 
     private UnityAction cargoListener;
     private bool countCargo = false;
@@ -37,6 +39,7 @@ public class GameUI : MonoBehaviour
 
     void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         EventManager.StartListening("cargoUpdate", cargoListener);
         player = GameObject.Find("PlayerShip");
         if (player!=null)
@@ -47,6 +50,7 @@ public class GameUI : MonoBehaviour
         boostRing.fillAmount = 0f;
         zoomDurationRing.fillAmount = 0f;
         zoomCooldownRing.fillAmount = 0f;
+        UpdateSaveCargoText(0);
     }
 
     void Update()
@@ -135,4 +139,8 @@ public class GameUI : MonoBehaviour
         return true;
     }
 
+    public void UpdateSaveCargoText(int savedCargo)
+    {
+        savedCargoText.text = "CARGO SAVED: " + savedCargo.ToString();
+    }
 }

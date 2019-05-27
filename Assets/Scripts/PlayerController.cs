@@ -36,7 +36,6 @@ public class PlayerController : MonoBehaviour
         playercamera = GameObject.Find("PlayerCamera").GetComponent<Camera>();
         fovMax = playercamera.fieldOfView;
         fov = fovMax;
-        Cursor.lockState = CursorLockMode.Locked;
         weapon.layerMask = 1 << 9;
 
 
