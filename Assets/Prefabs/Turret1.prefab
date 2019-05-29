@@ -49,10 +49,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thruster: {fileID: 0}
-  weapon: {fileID: 0}
+  weapons:
+  - {fileID: 3579111480066034361}
   target: {fileID: 0}
   layer: 9
   targetTag: Player
+  firingAngle: 5
   rotateSpeedBase: 1
   rotateSpeedCurr: 1
   xClamp: 0

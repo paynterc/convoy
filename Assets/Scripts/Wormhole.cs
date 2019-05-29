@@ -12,7 +12,7 @@ public class Wormhole : MonoBehaviour
 
     void OnTriggerEnter(Collider collision)
     {
-        Debug.Log("obj name" + collision.gameObject.name);
+
         //Check for a match with the specified name on any GameObject that collides with your GameObject
         if (collision.gameObject.name == "PlayerShip")
         {

@@ -227,7 +227,9 @@ MonoBehaviour:
   thrustBoostBase: 30
   thrustBoostCurr: 0
   rotateSpeedBase: 0.5
+  rotateSpeedCurr: 0
   rotateDragBase: 2
+  rotateDragCurr: 0
   boostRateBase: 2
   boostRateCurr: 0
   targetDir: {x: 0, y: 0, z: 0}
@@ -249,10 +251,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thruster: {fileID: 0}
-  weapon: {fileID: 0}
+  weapons:
+  - {fileID: 5517092566040667665}
   target: {fileID: 0}
   layer: 9
   targetTag: Cargo
+  firingAngle: 5
 --- !u!114 &7808481999420481757
 MonoBehaviour:
   m_ObjectHideFlags: 0

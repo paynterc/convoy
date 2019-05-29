@@ -18,21 +18,6 @@ public class TurretController : AiController
     {
         gameObject.layer = layer;
            
-        weapon = GetComponent<Weapon>();
-        weapon.origin = 1;
-        // Bit shift the index of the layer (8) to get a bit mask. This would be 0000000100000000, with 1 starting all the way on the right and moving 8 steps to the left.
-        // This number is the same as 256. 1<<9 would be 512. 1<<10 would be 1024.
-        // For multiple layers  (1<<8) | (1<<10);
-        if (layer == 8)
-        {
-            weapon.layerMask = 1 << 9;// Hit only this
-        }
-        else
-        {
-            weapon.layerMask = 1 << 8;// Hit only this
-        }
-
-
         rotateSpeedCurr = rotateSpeedBase;
     }
 

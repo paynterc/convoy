@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     private PlayerThruster thruster;
     private Camera playercamera;
-    private Weapon weapon;
+    private Weapon[] weapons;
 
     // Zooming and Time Slow
     private float fovMax;
@@ -30,13 +30,16 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         gameObject.layer = 8;
         thruster = GetComponent<PlayerThruster>();
-        weapon = GameObject.Find("PlayerWeapon").GetComponent<Weapon>();
+        //weapon = GameObject.Find("PlayerWeapon").GetComponent<Weapon>();
         playercamera = GameObject.Find("PlayerCamera").GetComponent<Camera>();
         fovMax = playercamera.fieldOfView;
         fov = fovMax;
-        weapon.layerMask = 1 << 9;
+
+        weapons = GetComponentsInChildren<Weapon>();
+        InitWeapons();
 
 
     }
@@ -60,8 +63,11 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButton("Fire1"))
         {
-            weapon.Fire();// Fire a burst
 
+            for (int i = 0; i < weapons.Length; i++)
+            {
+                weapons[i].Fire();// Fire a burst
+            }
         }
 
         // -1 = zoom in, 1 = zoom out
@@ -83,7 +89,6 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButton("Brake"))
         {
-            Debug.Log("braking");
             thruster.BrakeOn();
         }
         else
@@ -101,6 +106,16 @@ public class PlayerController : MonoBehaviour
             ToggleZoom();
         }
 
+
+    }
+
+    private void InitWeapons()
+    {
+
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            weapons[i].layerMask = 1 << 9;
+        }
 
     }
 

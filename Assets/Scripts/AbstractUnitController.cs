@@ -5,7 +5,8 @@ using UnityEngine;
 public class AbstractUnitController : MonoBehaviour
 {
 
-    public Thruster thruster; public Weapon weapon;
+    public Thruster thruster; 
+    public Weapon[] weapons;
     public Transform target;
     public int layer = 9;// layer of this object. 8 for allies. 9 for enemies
     public string targetTag = "Cargo";
@@ -36,10 +37,10 @@ public class AbstractUnitController : MonoBehaviour
 
     public virtual void AssignTarget(string findTag)
     {
-        GameObject cargo = FindClosestTag(findTag);
-        if (cargo != null)
+        GameObject o = FindClosestTag(findTag);
+        if (o != null)
         {
-            target = cargo.transform;
+            target = o.transform;
         }
         else
         {
@@ -49,7 +50,10 @@ public class AbstractUnitController : MonoBehaviour
 
     public virtual void FireWeapon()
     {
-        weapon.Fire();// Fire a burst
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            weapons[i].Fire();// Fire a burst
+        }
     }
 
     public virtual GameObject FindClosestTag(string mytag)

@@ -6,7 +6,15 @@ public class LookAtCamera:MonoBehaviour{
 
 	public void Start() {
     	if(lookAtCamera == null){
-    		lookAtCamera = Camera.main;
+            if (GameObject.Find("PlayerCamera").GetComponent<Camera>())
+            {
+                lookAtCamera = GameObject.Find("PlayerCamera").GetComponent<Camera>();
+            }
+            else
+            {
+                lookAtCamera = Camera.main;
+            }
+    		
     	}
     	if(lookOnlyOnAwake){
 			LookCamera();
@@ -20,6 +28,10 @@ public class LookAtCamera:MonoBehaviour{
     }
     
     public void LookCamera() {
-    	transform.LookAt(lookAtCamera.transform);
+        if (lookAtCamera)
+        {
+            transform.LookAt(lookAtCamera.transform);
+        }
+    
     }
 }
