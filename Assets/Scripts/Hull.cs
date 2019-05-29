@@ -8,7 +8,8 @@ public class Hull : MonoBehaviour
     protected float hullCurr;
     protected Explosion explosion;
     private GameObject hitObject;
-    private ParticleSystem hitPs;
+    private ParticleSystem hitPs;// particle effect for hits
+    private AbstractUnitController myController;
     // Use this for initialization
     void Start()
     {
@@ -16,6 +17,7 @@ public class Hull : MonoBehaviour
         explosion = GameObject.Find("Explosion").GetComponent<Explosion>();
         hitObject = GameObject.Find("HitPulse");
         hitPs = hitObject.GetComponent<ParticleSystem>();
+        myController = gameObject.GetComponent<AbstractUnitController>();
     }
 
 
@@ -30,6 +32,10 @@ public class Hull : MonoBehaviour
         {
             hitObject.transform.position = hitpoint;
             hitPs.Play();
+        }
+        if (myController)
+        {
+            myController.TakingDamage();
         }
 
     }

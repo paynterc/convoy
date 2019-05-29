@@ -71,4 +71,9 @@ public class AbstractUnitController : MonoBehaviour
         }
         return closest;
     }
+
+    public virtual void TakingDamage()
+    {
+        // Apply logic when taking damage
+    }
 }

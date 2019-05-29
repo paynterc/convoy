@@ -197,6 +197,10 @@ MonoBehaviour:
   boostRateCurr: 0
   targetDir: {x: 0, y: 0, z: 0}
   rotateTo: {x: 0, y: 0, z: 0, w: 0}
+  psLeft: {fileID: 0}
+  psRight: {fileID: 0}
+  psFront: {fileID: 0}
+  psBack: {fileID: 0}
 --- !u!114 &4065666129702894248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,7 +254,7 @@ CapsuleCollider:
   m_Radius: 2.5
   m_Height: 15
   m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0, z: 3}
 --- !u!1001 &1099911161352806109
 PrefabInstance:
   m_ObjectHideFlags: 0

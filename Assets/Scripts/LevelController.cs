@@ -200,7 +200,7 @@ public class LevelController : MonoBehaviour
                 Vector3 startPos = new Vector3(xx, yy, zz);
                 GameObject newBoss = Instantiate(bossPrefab, startPos, Quaternion.identity) as GameObject;
             }
-            spawnInterval = spawnInterval * 3;// Reduce the rate of drone spawns
+            //spawnInterval = spawnInterval * 3;// Reduce the rate of drone spawns
         }
     }
 

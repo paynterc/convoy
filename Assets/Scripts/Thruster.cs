@@ -17,15 +17,15 @@ public class Thruster : MonoBehaviour
     public float thrustBoostCurr;
     private ForceMode forceModeBase = ForceMode.Force;
     private ForceMode forceModeCurr;
-
+    private bool braking = false;
     // Rotating
     private float rotateH = 0;
     private float rotateV = 0;
     private float rotateZ = 0;
     public float rotateSpeedBase = 1.0f;
-    private float rotateSpeedCurr;
+    public float rotateSpeedCurr;
     public float rotateDragBase = 2.0f;
-    private float rotateDragCurr;
+    public float rotateDragCurr;
 
     // Timers
     public float boostRateBase = 2.0f;// Time between boosts
@@ -37,6 +37,16 @@ public class Thruster : MonoBehaviour
     // Used for manual rotation
     public Vector3 targetDir;
     public Quaternion rotateTo;
+
+    // Thruster effects
+    public ParticleSystem psLeft;
+    public ParticleSystem psRight;
+    public ParticleSystem psFront;
+    public ParticleSystem psBack;
+    private ParticleSystem.MinMaxCurve boostCurve = new ParticleSystem.MinMaxCurve(2.0f, 0.5f);
+    private ParticleSystem.MinMaxCurve normalCurve = new ParticleSystem.MinMaxCurve(0.75f, 0.5f);
+    private ParticleSystem.MainModule pMain;
+    private bool pMainSet = false;
 
     // Start is called before the first frame update
     void Start()
@@ -57,6 +67,65 @@ public class Thruster : MonoBehaviour
 
         Drag();
 
+        UpdateThrusterEffects();
+    }
+
+    public virtual void UpdateThrusterEffects()
+    {
+        if (psBack && !pMainSet)
+        {
+            pMainSet = true;
+            pMain = psBack.main;
+        }
+
+        if (braking)
+        {
+            SetThrusterEffects(1, 1, 1, 1);
+        }
+        else
+        {
+            int left = thrustHorizontal > 0 || rotateH > 0 ? 1 : 0;
+            int right = thrustHorizontal < 0 || rotateH < 0  ? 1 : 0;
+            int front = thrustVertical  < 0 || rotateV < 0 ? 1 : 0;
+            int back = thrustVertical > 0 || rotateV > 0 ? 1 : 0;
+            SetThrusterEffects(left, right, front, back);
+        }
+
+    }
+
+    // Turn effect on and off. 0 for off, 1 for on
+    public virtual void SetThrusterEffects(int left, int right, int front, int back)
+    {
+        
+
+
+        if (psLeft)
+        {
+            if (left == 1){psLeft.Play();}else{psLeft.Stop();}
+        }
+        if (psRight)
+        {
+            if (right == 1) { psRight.Play(); } else { psRight.Stop(); }
+        }
+        if (psFront)
+        {
+            if (front == 1) { psFront.Play(); } else { psFront.Stop(); }
+        }
+        if (psBack)
+        {
+
+            if (boosting)
+            {
+                pMain.startSize = boostCurve;
+            }
+            else
+            {
+                pMain.startSize = normalCurve;
+            }
+            if (back == 1) { psBack.Play(); } else { psBack.Stop(); }
+
+        }
+
     }
 
     public virtual void Init()
@@ -72,6 +141,7 @@ public class Thruster : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.angularDrag = rotateDragCurr;
         rb.drag = thrustDragCurr;
+        SetThrusterEffects(0, 0, 0, 0);
 
     }
 
@@ -112,6 +182,7 @@ public class Thruster : MonoBehaviour
     {
         thrustDragCurr = thrustDragBase * 5f;
         rotateDragCurr = rotateDragBase * 5f;
+        braking = true;
         //thrustSpeedCurr = 0;
     }
 
@@ -120,6 +191,7 @@ public class Thruster : MonoBehaviour
         thrustDragCurr = thrustDragBase;
         rotateDragCurr = rotateDragBase;
         //thrustSpeedCurr = thrustSpeedBase;
+        braking = false;
     }
 
     public virtual void StartBoost()
@@ -183,6 +255,7 @@ public class Thruster : MonoBehaviour
 
     public virtual void SetThrust(float tH, float tV, float rH, float rV, float rZ)
     {
+
         SetThrustH(tH);
         SetThrustV(tV);
         SetRotateH(rH);
