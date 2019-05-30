@@ -21,6 +21,7 @@ public class GameUI : MonoBehaviour
 
 
     private UnityAction cargoListener;
+    private UnityAction playerDamageListener;
     private bool countCargo = false;
 
     private GameObject player;
@@ -29,28 +30,32 @@ public class GameUI : MonoBehaviour
     public Image boostRing;
     public Image zoomDurationRing;
     public Image zoomCooldownRing;
-
+    public Image hullRing;
+    private Hull playerHull;
 
     void Awake()
     {
         cargoListener = new UnityAction(SetCargoCount);
-
+        playerDamageListener = new UnityAction(UpdateHullRing);
     }
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         EventManager.StartListening("cargoUpdate", cargoListener);
+        EventManager.StartListening("playerDamage", playerDamageListener);
         player = GameObject.Find("PlayerShip");
         if (player!=null)
         {
             playerThruster = player.GetComponent<PlayerThruster>();
             playerController = player.GetComponent<PlayerController>();
+            playerHull = player.GetComponent<Hull>();
         }
         boostRing.fillAmount = 0f;
         zoomDurationRing.fillAmount = 0f;
         zoomCooldownRing.fillAmount = 0f;
         UpdateSaveCargoText(0);
+
     }
 
     void Update()
@@ -73,14 +78,19 @@ public class GameUI : MonoBehaviour
 
     void OnDisable()
     {
-        EventManager.StopListening("cargoUpdate", cargoListener);
+        StopListeners();
     }
 
     private void OnDestroy()
     {
-        EventManager.StopListening("cargoUpdate", cargoListener);
+        StopListeners();
     }
 
+    private void StopListeners()
+    {
+        EventManager.StopListening("cargoUpdate", cargoListener);
+        EventManager.StopListening("playerDamage", playerDamageListener);
+    }
 
     public void SetCargoCount()
     {
@@ -142,5 +152,10 @@ public class GameUI : MonoBehaviour
     public void UpdateSaveCargoText(int savedCargo)
     {
         savedCargoText.text = "CARGO SAVED: " + savedCargo.ToString();
+    }
+
+    public void UpdateHullRing()
+    {
+        hullRing.fillAmount = playerHull.GetHullCurrent() / playerHull.hullBase;
     }
 }

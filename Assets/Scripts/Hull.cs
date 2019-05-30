@@ -45,4 +45,9 @@ public class Hull : MonoBehaviour
         explosion.Explode(transform.position);
         Destroy(gameObject);
     }
+
+    public float GetHullCurrent()
+    {
+        return hullCurr;
+    }
 }

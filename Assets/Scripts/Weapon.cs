@@ -41,7 +41,11 @@ public class Weapon : MonoBehaviour
 
     public virtual void Init()
     {
-        playercamera = GameObject.Find("PlayerCamera").GetComponent<Camera>();
+        if (GameObject.Find("PlayerCamera"))
+        {
+            playercamera = GameObject.Find("PlayerCamera").GetComponent<Camera>();
+
+        }
         MakeLine();
     }
 
@@ -111,6 +115,8 @@ public class Weapon : MonoBehaviour
 
             //Debug.Log("Shot Did not Hit");
         }
+
+
 
     }
 

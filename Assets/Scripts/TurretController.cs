@@ -19,6 +19,7 @@ public class TurretController : AiController
         gameObject.layer = layer;
            
         rotateSpeedCurr = rotateSpeedBase;
+        InitWeapons();
     }
 
     public override void UpdateStep()
@@ -30,7 +31,7 @@ public class TurretController : AiController
             RotateWithLock();
 
             float angle = Vector3.Angle(target.position - transform.position, transform.forward);
-            if (angle < 5.0f)
+            if (angle < firingAngle)
             {
                 FireWeapon();
             }

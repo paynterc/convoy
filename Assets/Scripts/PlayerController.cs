@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : AbstractUnitController
 {
-    private PlayerThruster thruster;
+
     private Camera playercamera;
-    private Weapon[] weapons;
 
     // Zooming and Time Slow
     private float fovMax;
@@ -27,28 +26,20 @@ public class PlayerController : MonoBehaviour
     public float timeMin = 0.5f;
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
 
+    public override void Init()
+    {
         gameObject.layer = 8;
         thruster = GetComponent<PlayerThruster>();
-        //weapon = GameObject.Find("PlayerWeapon").GetComponent<Weapon>();
         playercamera = GameObject.Find("PlayerCamera").GetComponent<Camera>();
         fovMax = playercamera.fieldOfView;
         fov = fovMax;
-
         weapons = GetComponentsInChildren<Weapon>();
         InitWeapons();
-
-
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void UpdateStep()
     {
-
-
         thruster.SetThrust(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"), Input.GetAxis("Roll"));
 
         // Manual Rotation
@@ -75,7 +66,7 @@ public class PlayerController : MonoBehaviour
         {
             if (!zoomed)
             {
-                if (Time.time> zoomCooldownTimer)
+                if (Time.time > zoomCooldownTimer)
                 {
                     zooming = true;
                 }
@@ -105,8 +96,6 @@ public class PlayerController : MonoBehaviour
         {
             ToggleZoom();
         }
-
-
     }
 
     private void InitWeapons()
@@ -165,6 +154,12 @@ public class PlayerController : MonoBehaviour
     {
         return zoomCooldownTimer;
 
+    }
+
+    public override void TakingDamage()
+    {
+        // Apply logic when taking damage
+        EventManager.TriggerEvent("playerDamage");
     }
 
 }
