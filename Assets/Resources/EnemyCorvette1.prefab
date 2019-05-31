@@ -249,7 +249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 912916857993d4e338f9a7dbc3bfeba1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireRate: 2
+  fireRate: 0.2
   fireDuration: 0.05
   damage: 5
   range: 100
@@ -258,11 +258,14 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   lineMaterial: {fileID: 0}
+  burstRate: 2
+  burstMagnitude: 3
   projectile: {fileID: 7895406483759880444, guid: f7ecee380ca02466dbce5fdbe2b902eb,
     type: 3}
   bulletSpeed: 200
   bulletLife: 10
-  createPool: 0
+  createPool: 1
+  createForward: 20
 --- !u!1001 &1099911161352806109
 PrefabInstance:
   m_ObjectHideFlags: 0

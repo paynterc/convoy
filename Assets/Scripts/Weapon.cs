@@ -67,17 +67,21 @@ public class Weapon : MonoBehaviour
 
     public virtual void DrawShot()
     {
-        // Draw laser line
-        if (Time.time < fireTimer)
+        if (line)
         {
-            line.enabled = true;
-            line.SetPosition(0, transform.position);
-            line.SetPosition(1, transform.position + (transform.forward * range));
+            // Draw laser line
+            if (Time.time < fireTimer)
+            {
+                line.enabled = true;
+                line.SetPosition(0, transform.position);
+                line.SetPosition(1, transform.position + (transform.forward * range));
+            }
+            else
+            {
+                line.enabled = false;
+            }
         }
-        else
-        {
-            line.enabled = false;
-        }
+
     }
 
     public virtual void FireShot()
