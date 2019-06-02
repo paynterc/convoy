@@ -12,7 +12,7 @@ public class Projectile : MonoBehaviour
     public float duration = 5.0f;// Life of the object
     public float speed = 20f;
     protected float deadline = 0.0f;
-    private Rigidbody rb;
+    protected Rigidbody rb;
 
     private void Start()
     {
@@ -68,6 +68,17 @@ public class Projectile : MonoBehaviour
     {
         if (pooled)
         {
+            transform.rotation = Quaternion.identity;
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            TrailRenderer[] trails = GetComponentsInChildren<TrailRenderer>();
+            if (trails.Length>0)
+            {
+                for (int t=0;t<trails.Length;t++)
+                {
+                    trails[t].Clear();
+                }
+            }
             gameObject.SetActive(false);
         }
         else

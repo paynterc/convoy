@@ -19,10 +19,13 @@ public class GameUI : MonoBehaviour
     public Text cargoText;
     public Text savedCargoText;
 
+    private int haulerCount = 0;
+    public Text haulerText;
+    public Text savedHaulerText;
 
-    private UnityAction cargoListener;
     private UnityAction playerDamageListener;
     private bool countCargo = false;
+    private bool countHaulers = false;
 
     private GameObject player;
     private PlayerThruster playerThruster;
@@ -35,15 +38,15 @@ public class GameUI : MonoBehaviour
 
     void Awake()
     {
-        cargoListener = new UnityAction(SetCargoCount);
         playerDamageListener = new UnityAction(UpdateHullRing);
     }
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        EventManager.StartListening("cargoUpdate", cargoListener);
+
         EventManager.StartListening("playerDamage", playerDamageListener);
+
         player = GameObject.Find("PlayerShip");
         if (player!=null)
         {
@@ -55,7 +58,7 @@ public class GameUI : MonoBehaviour
         zoomDurationRing.fillAmount = 0f;
         zoomCooldownRing.fillAmount = 0f;
         UpdateSaveCargoText(0);
-
+        UpdateSaveHaulerText(0);
     }
 
     void Update()
@@ -66,15 +69,6 @@ public class GameUI : MonoBehaviour
 
     }
 
-    private void LateUpdate()
-    {
-        if (countCargo)
-        {
-            countCargo = false;
-            cargoCount = GameObject.FindGameObjectsWithTag("Cargo").Length;
-            cargoText.text = "CARGO REMAINING: " + cargoCount;
-        }
-    }
 
     void OnDisable()
     {
@@ -88,15 +82,9 @@ public class GameUI : MonoBehaviour
 
     private void StopListeners()
     {
-        EventManager.StopListening("cargoUpdate", cargoListener);
         EventManager.StopListening("playerDamage", playerDamageListener);
     }
 
-    public void SetCargoCount()
-    {
-        countCargo = true;
-
-    }
 
     private bool UpdateBoostRing()
     {
@@ -151,7 +139,29 @@ public class GameUI : MonoBehaviour
 
     public void UpdateSaveCargoText(int savedCargo)
     {
-        savedCargoText.text = "CARGO SAVED: " + savedCargo.ToString();
+        if (savedCargoText)
+        {
+            savedCargoText.text = "CARGO DELIVERED: " + savedCargo.ToString();
+        }
+
+    }
+
+    public void UpdateSaveHaulerText(int savedHaulers)
+    {
+        if (savedHaulerText)
+        {
+            savedHaulerText.text = "HAULERS ESCAPED: " + savedHaulers.ToString();
+        }
+
+    }
+
+    public void UpdateHaulerCountText(int hC)
+    {
+        if (haulerText)
+        {
+            haulerText.text = "HAULERS REMAINING: " + hC.ToString();
+        }
+
     }
 
     public void UpdateHullRing()

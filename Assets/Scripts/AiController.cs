@@ -38,6 +38,10 @@ public class AiController : AbstractUnitController
         else
         {
             AssignTarget(targetTag);
+            if (!target)
+            {
+                AssignTarget(targetTag2);
+            }
         }
         if (target == null)
         {
@@ -47,6 +51,10 @@ public class AiController : AbstractUnitController
 
     public virtual void InitWeapons()
     {
+        if (autoDetectWeapons)
+        {
+            weapons = GetComponentsInChildren<Weapon>();
+        }
 
         for (int i = 0; i < weapons.Length; i++)
         {

@@ -5,8 +5,11 @@ public class LookAtCamera:MonoBehaviour{
     public bool lookOnlyOnAwake;
 
 	public void Start() {
-    	if(lookAtCamera == null){
-            if (GameObject.Find("PlayerCamera").GetComponent<Camera>())
+
+        GameObject playercam = GameObject.Find("PlayerCamera");
+
+        if (lookAtCamera == null){
+            if (playercam)
             {
                 lookAtCamera = GameObject.Find("PlayerCamera").GetComponent<Camera>();
             }

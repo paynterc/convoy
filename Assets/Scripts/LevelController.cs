@@ -12,14 +12,22 @@ public class LevelController : MonoBehaviour
     private float spawnInterval = 15f;
     private float spawnBossInterval = 120f;
     private int bossPerSpawn = 1;
-    private int haulerCount = 2;
+
+    private int haulerCount;// Haulers in inventory
+    private int haulersInPlayCount;// Haulers on the field
+    private int savedHaulerCount = 0;
+    private int savedCargoCount = 0;
+
     private float levelStartTime = 120f;
+    private float levelStartMin = 120f;
+    private float levelStartMax = 300f;
 
     private float spawnTimer = 0f;
     private float spawnBossTimer = 0f;
     private Object enemyPrefab;
     private Object checkpointPrefab;
     private Object haulerPrefab;
+    private Object cargoPrefab;
 
     private float levelRemainingTime;
     public Text levelTimerText;
@@ -28,7 +36,6 @@ public class LevelController : MonoBehaviour
     public ParticleSystem wormHolePS2;
     private bool wormholeStarted = false;
 
-
     // Lists: https://answers.unity.com/questions/1292679/how-to-add-to-generic-list.html
     List<GameObject> checkpoints = new List<GameObject>();
     int checkpointCurrent = 0;// Pointer for the current checkpoint
@@ -36,12 +43,22 @@ public class LevelController : MonoBehaviour
     public GameObject bossPrefab;
     private bool bossSpawned = false;
     public GameUI gameUi;
+    public List<GameObject> lieutenants;
+
 
     private UnityAction playerExitListener;
+    private UnityAction haulerDeadListener;
+    private UnityAction haulerEnteredWormhole;
+    private UnityAction cargoEnteredWormhole;
+    private UnityAction lostHaulerListener;
 
     private void Awake()
     {
         playerExitListener = new UnityAction(CompleteLevelSuccess);
+        haulerDeadListener = new UnityAction(HaulerDestroyed);
+        haulerEnteredWormhole = new UnityAction(HaulerEnteredWormhole);
+        cargoEnteredWormhole = new UnityAction(CargoEnteredWormhole);
+        lostHaulerListener = new UnityAction(ResetHaulerList);
 
     }
 
@@ -57,22 +74,21 @@ public class LevelController : MonoBehaviour
         // GameObject myObject = Instantiate(prefab, position, rotation) as GameObject;
         enemyPrefab = Resources.Load("EnemyShip");
         checkpointPrefab = Resources.Load("Checkpoint");
-        haulerPrefab = Resources.Load("Hauler");
+        haulerPrefab = Resources.Load("Hauler2");
+        cargoPrefab = Resources.Load("Cargo");
 
-        spawnTimer = Time.time + spawnInterval;
+        spawnTimer = Time.time + 5.0f;
         spawnBossTimer = Time.time + spawnBossInterval;
 
         levelTimerText = GameObject.Find("CountdownText").GetComponent<Text>();
         gameUi = GameObject.Find("UIController").GetComponent<GameUI>();
 
         SetWormhole();
-        Debug.Log(GameSingleton.Instance.MyTestString);
-
-        // LISTENERS
-        EventManager.StartListening("playerExitedLevel", playerExitListener);
-
+        StartListeners();
         CreateCheckpoints();
         CreateHaulers();
+
+        LevelStatus();
 
     }
 
@@ -87,17 +103,38 @@ public class LevelController : MonoBehaviour
 
     void OnDisable()
     {
-        EventManager.StopListening("playerExitedLevel", playerExitListener);
+        StopListeners();
     }
 
     private void OnDestroy()
     {
+        StopListeners();
+    }
+
+    // LISTENERS
+    private void StartListeners()
+    {
+        EventManager.StartListening("playerExitedLevel", playerExitListener);
+        EventManager.StartListening("haulerDestroyed", haulerDeadListener);
+        EventManager.StartListening("haulerEnteredWormhole", haulerEnteredWormhole);
+        EventManager.StartListening("cargoEnteredWormhole", cargoEnteredWormhole);
+        EventManager.StartListening("haulerLost", lostHaulerListener);
+    }
+
+    private void StopListeners()
+    {
         EventManager.StopListening("playerExitedLevel", playerExitListener);
+        EventManager.StopListening("haulerDestroyed", haulerDeadListener);
+        EventManager.StopListening("haulerEnteredWormhole", haulerEnteredWormhole);
+        EventManager.StopListening("cargoEnteredWormhole", cargoEnteredWormhole);
+        EventManager.StopListening("haulerLost", lostHaulerListener);
+
+
     }
 
     private void CompleteLevelSuccess()
     {
-        SetDifficulty();
+        UpdateGameData();
         SceneManager.LoadScene("Intermission", LoadSceneMode.Single);
     }
 
@@ -108,17 +145,30 @@ public class LevelController : MonoBehaviour
         spawnInterval = GameSingleton.Instance.spawnInterval;
         spawnBossInterval = GameSingleton.Instance.spawnBossInterval;
         bossPerSpawn = GameSingleton.Instance.bossPerSpawn;
-        haulerCount = GameSingleton.Instance.haulerCount;
+        haulerCount = GameSingleton.Instance.HaulerCount;
+        haulersInPlayCount = haulerCount;
         levelStartTime = GameSingleton.Instance.levelStartTime;
+
     }
 
-    private void SetDifficulty()
+    private void UpdateGameData()
     {
+        GameSingleton.Instance.LostCargo = GameSingleton.Instance.HaulerCount - savedCargoCount;// Do this first
+        GameSingleton.Instance.TotalLostCargo += GameSingleton.Instance.LostCargo;
+        GameSingleton.Instance.LostHaulers = GameSingleton.Instance.HaulerCount - savedHaulerCount;
+        GameSingleton.Instance.LostHaulersTotal += GameSingleton.Instance.LostHaulers;
+
+        GameSingleton.Instance.HaulerCount = savedHaulerCount;
+        GameSingleton.Instance.SavedCargo = savedCargoCount;
+        GameSingleton.Instance.TotalSavedCargo += savedCargoCount;
+
         GameSingleton.Instance.maxEmy = Mathf.Clamp(GameSingleton.Instance.maxEmy+1,6,12);
         GameSingleton.Instance.emyPerSpawn = Mathf.Clamp(GameSingleton.Instance.emyPerSpawn + 1, 6, 12);
         GameSingleton.Instance.spawnInterval = Mathf.Clamp(GameSingleton.Instance.spawnInterval - 5, 8, 45);
-        GameSingleton.Instance.haulerCount = Mathf.Clamp(GameSingleton.Instance.haulerCount + 1, 3, 20);
-        GameSingleton.Instance.levelStartTime = Mathf.Clamp(GameSingleton.Instance.levelStartTime + 10, 240, 240*3);
+        //GameSingleton.Instance.HaulerCount = Mathf.Clamp(GameSingleton.Instance.HaulerCount + 1, 3, 20);
+        GameSingleton.Instance.levelStartTime = Mathf.Clamp(GameSingleton.Instance.levelStartTime + 20, levelStartMin, levelStartMax);
+
+        GameSingleton.Instance.lieutenantOdds = Mathf.Clamp(GameSingleton.Instance.lieutenantOdds - 1,3,20);
     }
 
     private void DecrementTimer()
@@ -137,7 +187,7 @@ public class LevelController : MonoBehaviour
             }
 
         }
-        levelTimerText.text = "Time to Wormhole: " + levelRemainingTime.ToString("F");
+        levelTimerText.text = "WORMHOLE OPENS IN: " + levelRemainingTime.ToString("F");
 
     }
 
@@ -148,13 +198,14 @@ public class LevelController : MonoBehaviour
         int zz = Random.Range(100 , 300);
         Vector3 startPos = new Vector3(xx, yy, zz);
         wormhole.transform.position = startPos;
+        wormhole.SetActive(false);
         wormHolePS1.Stop();
         wormHolePS2.Stop();
 
     }
     private void StartWormhole()
     {
-
+        wormhole.SetActive(true);
         wormHolePS1.Play();
         wormHolePS2.Play();
 
@@ -175,6 +226,24 @@ public class LevelController : MonoBehaviour
             for (int i=0; i<emyPerSpawn; i++)
             {
                 SpawnEnemy(startPos);
+            }
+
+            if ( Random.Range(1, GameSingleton.Instance.lieutenantOdds) == GameSingleton.Instance.lieutenantOdds)
+            {
+                // Spawn liutenants
+                GameObject lType = lieutenants[Random.Range(0, lieutenants.Count - 1)];
+                int c = Random.Range(1,5);
+                m = Random.Range(1, 3);
+                xx = Random.Range(100 * m, 300 * m);
+                yy = Random.Range(100 * m, 300 * m);
+                zz = Random.Range(100 * m, 300 * m);
+                startPos = new Vector3(xx, yy, zz);
+                for (int i = 0; i < c; i++)
+                {
+                
+                    GameObject newL= Instantiate(lType, startPos, Quaternion.identity) as GameObject;
+                }
+
             }
         }
     }
@@ -227,25 +296,38 @@ public class LevelController : MonoBehaviour
         int zz = 0;
         for (int i = 0; i < haulerCount; i++)
         {
-            Vector3 startPos = new Vector3(0, 20, zz);
+            Vector3 startPos = new Vector3(0, 0, zz);
             SpawnHauler(startPos);
-            zz -= 20;
+            zz -= 40;
         }
         SetHaulerTargets();
-        EventManager.TriggerEvent("cargoUpdate");
+
     }
 
     private void SpawnHauler(Vector3 startPos)
     {
         GameObject newHauler = Instantiate(haulerPrefab, startPos, Quaternion.identity) as GameObject;
         haulers.Add(newHauler);
+        Vector3 startPos2 = new Vector3(startPos.x, startPos.y, startPos.z-8.0f);
+        GameObject newCargo = Instantiate(cargoPrefab, startPos2, Quaternion.identity) as GameObject;
+        newCargo.GetComponent<AiController>().target = newHauler.transform;
+    }
+
+    public void ResetHaulerList()
+    {
+        // Do this when a hauler is destroyed. Reset the hauler list with new indexes and then set checkpoint targets again.
+        haulers = new List<GameObject>();
+        haulers.AddRange(GameObject.FindGameObjectsWithTag("Hauler"));
+        SetHaulerTargets();
     }
 
     public void SetHaulerTargets()
     {
         for (int i=0; i<haulers.Count; i++)
         {
-            HaulerController h = haulers[i].GetComponent<HaulerController>();
+            GameObject hauler = haulers[i];
+            if (!hauler) continue;
+            HaulerController h = hauler.GetComponent<HaulerController>();
             if (wormholeStarted)
             {
                 h.SetTarget(wormhole.transform);
@@ -286,41 +368,41 @@ public class LevelController : MonoBehaviour
             {
                 IncrementCheckpoint();
             }
-        }else if (target.name=="Wormhole")
-        {
-            ProcessWormholeArrival(hauler);
         }
 
     }
 
-    private void ProcessWormholeArrival(GameObject hauler)
+    private void HaulerEnteredWormhole()
     {
-        // Count attached cargo containers
-        CargoController[] cargoContainers = hauler.GetComponentsInChildren<CargoController>();
-        // Add count to a "saved containers" total
-        GameSingleton.Instance.SavedCargo += cargoContainers.Length;
-        GameSingleton.Instance.TotalSavedCargo += cargoContainers.Length;
-        // Deactivate hauler and children
-        hauler.SetActive(false);
-        // Update UI
-        UpdateSaveCargoText();
-
-        CargoStatus();
-        EventManager.TriggerEvent("cargoUpdate");
+        savedHaulerCount++;
+        haulersInPlayCount = haulersInPlayCount < 1 ? 0 : haulersInPlayCount - 1;
+        LevelStatus();
     }
 
-    private void CargoStatus()
+    private void CargoEnteredWormhole()
     {
-        int cargoCount = GameObject.FindGameObjectsWithTag("Cargo").Length;
-        if (cargoCount<1)
+        savedCargoCount++;
+        LevelStatus();
+    }
+
+    private void LevelStatus()
+    {
+
+        gameUi.UpdateHaulerCountText(haulersInPlayCount);
+        gameUi.UpdateSaveCargoText(savedCargoCount);
+
+        if (haulersInPlayCount < 1)
         {
             wormhole.GetComponent<Wormhole>().playerCanEnter = true;
         }
     }
 
-    private void UpdateSaveCargoText()
+
+    private void HaulerDestroyed()
     {
-        gameUi.UpdateSaveCargoText(GameSingleton.Instance.SavedCargo);
+        haulerCount = haulerCount < 1 ? 0 : haulerCount -1;
+        haulersInPlayCount = haulersInPlayCount < 1 ? 0 : haulersInPlayCount - 1;
+        LevelStatus();
 
     }
 }

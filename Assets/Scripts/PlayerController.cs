@@ -29,6 +29,7 @@ public class PlayerController : AbstractUnitController
 
     public override void Init()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         gameObject.layer = 8;
         thruster = GetComponent<PlayerThruster>();
         playercamera = GameObject.Find("PlayerCamera").GetComponent<Camera>();

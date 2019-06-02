@@ -23,6 +23,7 @@ public class Weapon : MonoBehaviour
     // But instead, if we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask. layerMask = ~layerMask;
     public LayerMask layerMask = 1 << 8;
     public Material lineMaterial;
+    public ParticleSystem muzzleFlash;
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +47,7 @@ public class Weapon : MonoBehaviour
             playercamera = GameObject.Find("PlayerCamera").GetComponent<Camera>();
 
         }
+        if (muzzleFlash) muzzleFlash.Stop();
         MakeLine();
     }
 
@@ -73,6 +75,7 @@ public class Weapon : MonoBehaviour
             if (Time.time < fireTimer)
             {
                 line.enabled = true;
+                // position line here if wanted
                 line.SetPosition(0, transform.position);
                 line.SetPosition(1, transform.position + (transform.forward * range));
             }
@@ -91,6 +94,12 @@ public class Weapon : MonoBehaviour
         fireTimer = Time.time + fireDuration;
         // Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask)
         // Raycast from gun. Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, range)
+        if(muzzleFlash) muzzleFlash.Play();
+
+        if (line)
+        {
+            // position line here if wanted
+        }
 
         if (origin==0)
         {

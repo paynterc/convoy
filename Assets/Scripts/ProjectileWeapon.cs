@@ -30,7 +30,7 @@ public class ProjectileWeapon : BurstWeapon
         {
             bullet = pool.GetPooledObject();
             bullet.transform.position = transform.position + transform.forward * createForward;
-            bullet.transform.rotation = Quaternion.identity;
+            bullet.transform.rotation = transform.rotation;
         }
         else
         {
@@ -44,7 +44,11 @@ public class ProjectileWeapon : BurstWeapon
         P.speed = bulletSpeed;
         P.Init();
         bullet.SetActive(true);
-        bullet.GetComponent<Rigidbody>().velocity = transform.forward * bulletSpeed;
+        if (bulletSpeed>0)
+        {
+            bullet.GetComponent<Rigidbody>().velocity = transform.forward * bulletSpeed;
+        }
+
 
 
     }

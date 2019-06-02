@@ -7,9 +7,11 @@ public class AbstractUnitController : MonoBehaviour
 
     public Thruster thruster; 
     public Weapon[] weapons;
+    public bool autoDetectWeapons = true;
     public Transform target;
     public int layer = 9;// layer of this object. 8 for allies. 9 for enemies
-    public string targetTag = "Cargo";
+    public string targetTag = "Hauler";
+    public string targetTag2 = "Player";
 
 
     // Start is called before the first frame update
@@ -52,7 +54,11 @@ public class AbstractUnitController : MonoBehaviour
     {
         for (int i = 0; i < weapons.Length; i++)
         {
-            weapons[i].Fire();// Fire a burst
+            if (weapons[i])
+            {
+                weapons[i].Fire();// Fire a burst
+            }
+
         }
     }
 

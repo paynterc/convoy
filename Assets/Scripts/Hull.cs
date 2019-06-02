@@ -10,6 +10,7 @@ public class Hull : MonoBehaviour
     private GameObject hitObject;
     private ParticleSystem hitPs;// particle effect for hits
     private AbstractUnitController myController;
+    private bool exploded = false;
     // Use this for initialization
     void Start()
     {
@@ -26,7 +27,12 @@ public class Hull : MonoBehaviour
         hullCurr -= D;
         if (hullCurr <= 0)
         {
-            Explode();
+            if (!exploded)
+            {
+                exploded = true;
+                Explode();
+            }
+
         }
         else
         {

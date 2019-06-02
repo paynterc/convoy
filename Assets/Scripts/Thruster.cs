@@ -9,6 +9,7 @@ public class Thruster : MonoBehaviour
     // Movement
     private float thrustHorizontal=0;// 1 or 0
     private float thrustVertical=0;// 1 or 0
+    private float thrustY = 0;// up down movement
     public float thrustSpeedBase = 5.0f;
     public float thrustSpeedCurr;
     public float thrustDragBase = 0.25f;
@@ -43,6 +44,8 @@ public class Thruster : MonoBehaviour
     public ParticleSystem psRight;
     public ParticleSystem psFront;
     public ParticleSystem psBack;
+    public ParticleSystem psTop;
+    public ParticleSystem psBottom;
     private ParticleSystem.MinMaxCurve boostCurve = new ParticleSystem.MinMaxCurve(2.0f, 0.5f);
     private ParticleSystem.MinMaxCurve normalCurve = new ParticleSystem.MinMaxCurve(0.75f, 0.5f);
     private ParticleSystem.MainModule pMain;
@@ -80,7 +83,7 @@ public class Thruster : MonoBehaviour
 
         if (braking)
         {
-            SetThrusterEffects(1, 1, 1, 1);
+            SetThrusterEffects(1, 1, 1, 1, 1, 1);
         }
         else
         {
@@ -88,13 +91,15 @@ public class Thruster : MonoBehaviour
             int right = thrustHorizontal < 0 || rotateH < 0  ? 1 : 0;
             int front = thrustVertical  < 0 || rotateV < 0 ? 1 : 0;
             int back = thrustVertical > 0 || rotateV > 0 ? 1 : 0;
-            SetThrusterEffects(left, right, front, back);
+            int top = thrustY < 0  ? 1 : 0;
+            int bottom = thrustY > 0 ? 1 : 0;
+            SetThrusterEffects(left, right, front, back, top, bottom);
         }
 
     }
 
     // Turn effect on and off. 0 for off, 1 for on
-    public virtual void SetThrusterEffects(int left, int right, int front, int back)
+    public virtual void SetThrusterEffects(int left, int right, int front, int back, int top, int bottom)
     {
         
 
@@ -113,19 +118,18 @@ public class Thruster : MonoBehaviour
         }
         if (psBack)
         {
-
-            if (boosting)
-            {
-                pMain.startSize = boostCurve;
-            }
-            else
-            {
-                pMain.startSize = normalCurve;
-            }
+        
             if (back == 1) { psBack.Play(); } else { psBack.Stop(); }
 
         }
-
+        if (psTop)
+        {
+            if (top == 1) { psTop.Play(); } else { psTop.Stop(); }
+        }
+        if (psBottom)
+        {
+            if (bottom == 1) { psBottom.Play(); } else { psBottom.Stop(); }
+        }
     }
 
     public virtual void Init()
@@ -141,7 +145,7 @@ public class Thruster : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.angularDrag = rotateDragCurr;
         rb.drag = thrustDragCurr;
-        SetThrusterEffects(0, 0, 0, 0);
+        SetThrusterEffects(0, 0, 0, 0, 0, 0);
 
     }
 
@@ -169,7 +173,7 @@ public class Thruster : MonoBehaviour
     public virtual void Thrust()
     {
         // Thrust
-        rb.AddRelativeForce(new Vector3(thrustHorizontal, 0.0f, thrustVertical) * thrustSpeedCurr, forceModeCurr);
+        rb.AddRelativeForce(new Vector3(thrustHorizontal, thrustY, thrustVertical) * thrustSpeedCurr, forceModeCurr);
     }
 
     public virtual void Drag()
@@ -198,6 +202,7 @@ public class Thruster : MonoBehaviour
     {
         if (Time.time > boostCooldownTimer && !boosting)
         {
+
             thrustSpeedCurr = thrustBoostCurr;
             forceModeCurr = ForceMode.Impulse;
             boostCooldownTimer = Time.time + boostRateCurr;
@@ -212,6 +217,7 @@ public class Thruster : MonoBehaviour
         //  Boosting for 1 frame
         if (boosting)
         {
+
             boostTimer++;
             if (boostTimer > 0)
             {
@@ -222,6 +228,7 @@ public class Thruster : MonoBehaviour
 
     public virtual void EndBoost()
     {
+
         boosting = false;
         thrustSpeedCurr = thrustSpeedBase;
         forceModeCurr = forceModeBase;
@@ -236,6 +243,11 @@ public class Thruster : MonoBehaviour
     public virtual void SetThrustH(float t)
     {
         thrustHorizontal = t;
+    }
+
+    public virtual void SetThrustY(float t)
+    {
+        thrustY = t;
     }
 
     public virtual void SetRotateV(float r)
