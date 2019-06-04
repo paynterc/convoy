@@ -2316,6 +2316,8 @@ MonoBehaviour:
   psRight: {fileID: 0}
   psFront: {fileID: 0}
   psBack: {fileID: 0}
+  psTop: {fileID: 0}
+  psBottom: {fileID: 0}
 --- !u!96 &4807956983034184843
 TrailRenderer:
   serializedVersion: 2
@@ -2447,6 +2449,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hullBase: 10
+  hullRing: {fileID: 1406735820045605799, guid: efcad84a40af244dca33b33083bdfd6a,
+    type: 3}
 --- !u!1 &4390311573112418645
 GameObject:
   m_ObjectHideFlags: 0

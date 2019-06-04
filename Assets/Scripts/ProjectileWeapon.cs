@@ -11,12 +11,14 @@ public class ProjectileWeapon : BurstWeapon
     public float createForward = 10.0f;// Instantiate bullets a certain amount forward to avoid self-collision
     private Pool pool;
     private GameObject bullet;
+    public int poolSize = 20;
 
     public override void Init()
     {
         if (createPool)
         {
-            pool = new Pool(projectile,20);
+            pool = new Pool(projectile, poolSize);
+
         }
     }
 

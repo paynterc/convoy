@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEngine.UI;
 public class Hull : MonoBehaviour
 {
 
@@ -11,6 +11,7 @@ public class Hull : MonoBehaviour
     private ParticleSystem hitPs;// particle effect for hits
     private AbstractUnitController myController;
     private bool exploded = false;
+
     // Use this for initialization
     void Start()
     {
@@ -19,6 +20,7 @@ public class Hull : MonoBehaviour
         hitObject = GameObject.Find("HitPulse");
         hitPs = hitObject.GetComponent<ParticleSystem>();
         myController = gameObject.GetComponent<AbstractUnitController>();
+
     }
 
 
@@ -55,5 +57,10 @@ public class Hull : MonoBehaviour
     public float GetHullCurrent()
     {
         return hullCurr;
+    }
+
+    public float GetHullPercentage()
+    {
+        return hullCurr/hullBase;
     }
 }

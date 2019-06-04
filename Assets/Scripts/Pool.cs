@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pool : MonoBehaviour
+public class Pool
 {
     public List<GameObject> pooledObjects;
     private GameObject myGameObject;
@@ -13,11 +13,12 @@ public class Pool : MonoBehaviour
         myGameObject = gameobject;
         for (int i = 0; i < amountToPool; i++)
         {
-            GameObject obj = (GameObject)Instantiate(gameobject);
+            GameObject obj = Object.Instantiate(gameobject);
             obj.SetActive(false);
             pooledObjects.Add(obj);
         }
     }
+
 
     public GameObject GetPooledObject()
     {
@@ -29,7 +30,7 @@ public class Pool : MonoBehaviour
                 return pooledObjects[i];
             }
         }
-        GameObject obj = (GameObject)Instantiate(myGameObject);
+        GameObject obj = Object.Instantiate(myGameObject);
         pooledObjects.Add(obj);
         //Debug.Log("Created new object in pool.");
         return obj;

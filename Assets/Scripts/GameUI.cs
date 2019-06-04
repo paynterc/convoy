@@ -34,7 +34,14 @@ public class GameUI : MonoBehaviour
     public Image zoomDurationRing;
     public Image zoomCooldownRing;
     public Image hullRing;
+    public Image haulerHullRing;
+  
+
+    public RectTransform healthBar;
+
     private Hull playerHull;
+    protected Camera playercamera;
+
 
     void Awake()
     {
@@ -54,6 +61,11 @@ public class GameUI : MonoBehaviour
             playerController = player.GetComponent<PlayerController>();
             playerHull = player.GetComponent<Hull>();
         }
+        if (GameObject.Find("PlayerCamera"))
+        {
+            playercamera = GameObject.Find("PlayerCamera").GetComponent<Camera>();
+
+        }
         boostRing.fillAmount = 0f;
         zoomDurationRing.fillAmount = 0f;
         zoomCooldownRing.fillAmount = 0f;
@@ -66,10 +78,32 @@ public class GameUI : MonoBehaviour
         UpdateBoostRing();
         UpdateZoomDurationRing();
         UpdateZoomCooldownRing();
-
+        //UnitStatusUI();
     }
 
+    public void AddHaulerRing()
+    {
+        Image newRing = Instantiate(haulerHullRing, Vector3.zero, Quaternion.identity) as Image;
+        //haulerHullRings.Add(newRing);
+    }
 
+    bool UnitStatusUI()
+    {
+        if (playercamera == null) return false;
+        // Health bars for haulers and enemies
+
+        GameObject[] haulers = GameObject.FindGameObjectsWithTag("Hauler");
+
+        Vector3 pos = haulers[0].transform.position;  // get the game object position
+        Vector2 viewportPoint = playercamera.WorldToViewportPoint(pos);  //convert game object position to VievportPoint
+
+        // set MIN and MAX Anchor values(positions) to the same position (ViewportPoint)
+        healthBar.anchorMin = viewportPoint;
+        healthBar.anchorMax = viewportPoint;
+        healthBar.GetComponent<Image>().fillAmount = haulers[0].GetComponent<Hull>().GetHullPercentage();
+
+        return true;
+    }
     void OnDisable()
     {
         StopListeners();

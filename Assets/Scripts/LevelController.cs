@@ -43,6 +43,8 @@ public class LevelController : MonoBehaviour
     public GameObject bossPrefab;
     private bool bossSpawned = false;
     public GameUI gameUi;
+    public UnitOverlayUi overlayUi;
+
     public List<GameObject> lieutenants;
 
 
@@ -51,6 +53,8 @@ public class LevelController : MonoBehaviour
     private UnityAction haulerEnteredWormhole;
     private UnityAction cargoEnteredWormhole;
     private UnityAction lostHaulerListener;
+
+
 
     private void Awake()
     {
@@ -82,6 +86,7 @@ public class LevelController : MonoBehaviour
 
         levelTimerText = GameObject.Find("CountdownText").GetComponent<Text>();
         gameUi = GameObject.Find("UIController").GetComponent<GameUI>();
+        overlayUi = GameObject.Find("UIController").GetComponent<UnitOverlayUi>();
 
         SetWormhole();
         StartListeners();
@@ -268,6 +273,7 @@ public class LevelController : MonoBehaviour
                 int zz = Random.Range(100 * m, 300 * m);
                 Vector3 startPos = new Vector3(xx, yy, zz);
                 GameObject newBoss = Instantiate(bossPrefab, startPos, Quaternion.identity) as GameObject;
+                overlayUi.RegisterUnit(newBoss);
             }
             //spawnInterval = spawnInterval * 3;// Reduce the rate of drone spawns
         }
@@ -299,6 +305,7 @@ public class LevelController : MonoBehaviour
             Vector3 startPos = new Vector3(0, 0, zz);
             SpawnHauler(startPos);
             zz -= 40;
+
         }
         SetHaulerTargets();
 
@@ -308,6 +315,9 @@ public class LevelController : MonoBehaviour
     {
         GameObject newHauler = Instantiate(haulerPrefab, startPos, Quaternion.identity) as GameObject;
         haulers.Add(newHauler);
+        // Register the new hauler in the UI for a health overlay
+        overlayUi.RegisterUnit(newHauler);
+
         Vector3 startPos2 = new Vector3(startPos.x, startPos.y, startPos.z-8.0f);
         GameObject newCargo = Instantiate(cargoPrefab, startPos2, Quaternion.identity) as GameObject;
         newCargo.GetComponent<AiController>().target = newHauler.transform;
