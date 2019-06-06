@@ -69,7 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e44612aa7767f4c85aba559ca9c5dc40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hullBase: 150
+  hullBase: 100
 --- !u!136 &1141068190480036842
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -218,6 +218,8 @@ MonoBehaviour:
   psRight: {fileID: 4627137839383633424}
   psFront: {fileID: 0}
   psBack: {fileID: 1356631740196302896}
+  psTop: {fileID: 0}
+  psBottom: {fileID: 0}
 --- !u!114 &7423672650225681826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,6 +235,7 @@ MonoBehaviour:
   thruster: {fileID: 0}
   weapons:
   - {fileID: 7857236693643616163}
+  autoDetectWeapons: 1
   target: {fileID: 0}
   layer: 9
   targetTag: Player
@@ -269,6 +272,7 @@ MonoBehaviour:
   bulletLife: 10
   createPool: 1
   createForward: 20
+  poolSize: 20
 --- !u!1001 &237665765308317664
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -294,7 +298,7 @@ PrefabInstance:
     - target: {fileID: 4862408309730960560, guid: a13fdcad774604f8e9d142a130f439ef,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.75
+      value: 7.21
       objectReference: {fileID: 0}
     - target: {fileID: 4862408309730960560, guid: a13fdcad774604f8e9d142a130f439ef,
         type: 3}
@@ -375,7 +379,7 @@ PrefabInstance:
     - target: {fileID: 4862408309730960560, guid: a13fdcad774604f8e9d142a130f439ef,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.75
+      value: 7.21
       objectReference: {fileID: 0}
     - target: {fileID: 4862408309730960560, guid: a13fdcad774604f8e9d142a130f439ef,
         type: 3}
@@ -518,6 +522,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sphere 09 PS (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4862408309730960560, guid: a13fdcad774604f8e9d142a130f439ef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -572,16 +586,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSize.minScalar
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a13fdcad774604f8e9d142a130f439ef, type: 3}

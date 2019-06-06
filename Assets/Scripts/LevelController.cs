@@ -10,6 +10,10 @@ public class LevelController : MonoBehaviour
     private int maxEmy = 6;
     private int emyPerSpawn=6;
     private float spawnInterval = 15f;
+
+    public GameObject bossPrefab;
+    public List<GameObject> bosses;
+    private bool bossSpawned = false;
     private float spawnBossInterval = 120f;
     private int bossPerSpawn = 1;
 
@@ -40,8 +44,6 @@ public class LevelController : MonoBehaviour
     List<GameObject> checkpoints = new List<GameObject>();
     int checkpointCurrent = 0;// Pointer for the current checkpoint
     List<GameObject> haulers = new List<GameObject>();
-    public GameObject bossPrefab;
-    private bool bossSpawned = false;
     public GameUI gameUi;
     public UnitOverlayUi overlayUi;
 
@@ -171,8 +173,16 @@ public class LevelController : MonoBehaviour
         GameSingleton.Instance.emyPerSpawn = Mathf.Clamp(GameSingleton.Instance.emyPerSpawn + 1, 6, 12);
         GameSingleton.Instance.spawnInterval = Mathf.Clamp(GameSingleton.Instance.spawnInterval - 5, 8, 45);
         //GameSingleton.Instance.HaulerCount = Mathf.Clamp(GameSingleton.Instance.HaulerCount + 1, 3, 20);
+        if (GameSingleton.Instance.bossIndex >= bosses.Count)
+        {
+            GameSingleton.Instance.bossIndex = 0;
+            GameSingleton.Instance.bossPerSpawn += 1;
+        }
+        else
+        {
+            GameSingleton.Instance.bossIndex += 1;
+        }
         GameSingleton.Instance.levelStartTime = Mathf.Clamp(GameSingleton.Instance.levelStartTime + 20, levelStartMin, levelStartMax);
-
         GameSingleton.Instance.lieutenantOdds = Mathf.Clamp(GameSingleton.Instance.lieutenantOdds - 1,3,20);
     }
 
@@ -232,24 +242,31 @@ public class LevelController : MonoBehaviour
             {
                 SpawnEnemy(startPos);
             }
+            LieutenantSpawner();
+        }
+    }
 
-            if ( Random.Range(1, GameSingleton.Instance.lieutenantOdds) == GameSingleton.Instance.lieutenantOdds)
+    private void LieutenantSpawner()
+    {
+        int ltRoll = Random.Range(1, GameSingleton.Instance.lieutenantOdds + 1);
+
+        if (ltRoll == GameSingleton.Instance.lieutenantOdds)
+        {
+            // Spawn liutenants
+            GameObject lType = lieutenants[Random.Range(0, lieutenants.Count - 1)];
+            int c = Random.Range(1, 5);
+            int m = Random.Range(1, 3);
+            int xx = Random.Range(100 * m, 300 * m);
+            int yy = Random.Range(100 * m, 300 * m);
+            int zz = Random.Range(100 * m, 300 * m);
+            Vector3 startPos = new Vector3(xx, yy, zz);
+            for (int i = 0; i < c; i++)
             {
-                // Spawn liutenants
-                GameObject lType = lieutenants[Random.Range(0, lieutenants.Count - 1)];
-                int c = Random.Range(1,5);
-                m = Random.Range(1, 3);
-                xx = Random.Range(100 * m, 300 * m);
-                yy = Random.Range(100 * m, 300 * m);
-                zz = Random.Range(100 * m, 300 * m);
-                startPos = new Vector3(xx, yy, zz);
-                for (int i = 0; i < c; i++)
-                {
-                
-                    GameObject newL= Instantiate(lType, startPos, Quaternion.identity) as GameObject;
-                }
 
+                GameObject newL = Instantiate(lType, startPos, Quaternion.identity) as GameObject;
+                overlayUi.RegisterUnit(newL);
             }
+
         }
     }
 
@@ -272,16 +289,18 @@ public class LevelController : MonoBehaviour
                 int yy = Random.Range(100 * m, 300 * m);
                 int zz = Random.Range(100 * m, 300 * m);
                 Vector3 startPos = new Vector3(xx, yy, zz);
-                GameObject newBoss = Instantiate(bossPrefab, startPos, Quaternion.identity) as GameObject;
+                GameObject bType = bosses[GameSingleton.Instance.bossIndex];
+                GameObject newBoss = Instantiate(bType, startPos, Quaternion.identity) as GameObject;
                 overlayUi.RegisterUnit(newBoss);
             }
+            LieutenantSpawner();
             //spawnInterval = spawnInterval * 3;// Reduce the rate of drone spawns
         }
     }
 
     private void CreateCheckpoints()
     {
-        for(int i=0;i<3;i++)
+        for(int i=1;i<4;i++)
         {
             SpawnCheckpoint(i);
         }

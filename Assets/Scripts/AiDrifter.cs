@@ -11,10 +11,10 @@ public class AiDrifter : AiController
     private bool doRetarget = false;
     public float changeDirRate = 3.0f;
     private float changeDirTimer = 0.0f;
-    private float strafeDir = 1;
+    protected float strafeDir = 1;
     public float reactionTime = 0.5f;
     public float reactiontimer = 0.0f;
-    private bool reacting = false;
+    protected bool reacting = false;
     public bool charger = false;// Charge at target on damage
 
     public override void Init()
@@ -35,27 +35,15 @@ public class AiDrifter : AiController
         // Rotate
         if (target && target.gameObject.activeSelf)
         {
-            float dist = Vector3.Distance(target.position, transform.position);
+
 
             if (!reacting)
             {
-                thruster.SetThrustY(0);
-                ChangeDirRandom();
-                if (dist <= avoidDistance)
-                {
-                    // Strafe
-                    thruster.SetThrustH(strafeDir);
-                    thruster.SetThrustV(0);
-                }
-                else
-                {
-                    thruster.SetThrustH(0);
-                    thruster.SetThrustV(1);
-                }
+                Move();
             }
             else
             {
-                ReactDamage();
+                Reactions();
             }
 
 
@@ -80,12 +68,35 @@ public class AiDrifter : AiController
         Retarget();
     }
 
+    public virtual void Move()
+    {
+        float dist = Vector3.Distance(target.position, transform.position);
+        thruster.SetThrustY(0);
+        ChangeDirRandom();
+        if (dist <= avoidDistance)
+        {
+            // Strafe
+            thruster.SetThrustH(strafeDir);
+            thruster.SetThrustV(0);
+        }
+        else
+        {
+            thruster.SetThrustH(0);
+            thruster.SetThrustV(1);
+        }
+    }
+
+    public virtual void Reactions()
+    {
+        ReactDamage();
+    }
+
     private void StartDirectionTimer()
     {
         changeDirTimer = Time.time+changeDirRate;
     }
 
-    private void ChangeDirRandom()
+    public virtual void ChangeDirRandom()
     {
         if (Time.time>changeDirTimer)
         {
@@ -106,13 +117,13 @@ public class AiDrifter : AiController
 
     }
 
-    private void StartReactDamage()
+    public virtual void StartReactDamage()
     {
         reacting = true;
         reactiontimer = Time.time + reactionTime;
     }
 
-    private void ReactDamage()
+    public virtual void ReactDamage()
     {
         if (reacting && Time.time > reactiontimer)
         {
@@ -135,7 +146,7 @@ public class AiDrifter : AiController
 
     }
 
-    private float ChooseDirection()
+    public virtual float ChooseDirection()
     {
 
         //return Random.Range(-1.0f,1.0f);
@@ -143,7 +154,7 @@ public class AiDrifter : AiController
         return roll == 1 ? -1 : 1;
     }
 
-    private void Retarget()
+    public virtual void Retarget()
     {
         if (doRetarget && Time.time > retargetTimer)
         {

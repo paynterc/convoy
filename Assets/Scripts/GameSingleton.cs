@@ -21,7 +21,8 @@
     public float spawnInterval = 45f;
     public float spawnBossInterval = 120f;
     public int bossPerSpawn = 1;
-    public float lieutenantOdds = 20.0f;
+    public int bossIndex = 0;
+    public int lieutenantOdds = 10;
 
     public float levelStartTime = 120f;
 
