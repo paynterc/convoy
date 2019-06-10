@@ -17,17 +17,7 @@ public class AiDrifter : AiController
     protected bool reacting = false;
     public bool charger = false;// Charge at target on damage
 
-    public override void Init()
-    {
-        gameObject.layer = layer;
 
-        thruster = GetComponent<Thruster>();
-        thruster.SetThrustV(1f);// Go forward        
-
-        InitWeapons();
-
-
-    }
 
     public override void UpdateStep()
     {

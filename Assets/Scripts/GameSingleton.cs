@@ -23,7 +23,8 @@
     public int bossPerSpawn = 1;
     public int bossIndex = 0;
     public int lieutenantOdds = 10;
-
+    public int lieutenantsPerSpawn = 2;
+    public int maxLieutenants = 4;
     public float levelStartTime = 120f;
 
     public void DecrementHauler()

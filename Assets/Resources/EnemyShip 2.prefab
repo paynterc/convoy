@@ -69,7 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e44612aa7767f4c85aba559ca9c5dc40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hullBase: 100
+  hullBase: 50
 --- !u!136 &1141068190480036842
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -256,7 +256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireRate: 0.15
   fireDuration: 0.05
-  damage: 10
+  damage: 2
   range: 500
   origin: 0
   layerMask:

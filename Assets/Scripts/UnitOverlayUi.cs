@@ -33,6 +33,14 @@ public class UnitOverlayUi : MonoBehaviour
         // Create a new healthbar
         RectTransform newHealthbar = Instantiate(healthGraphic, Vector3.zero, Quaternion.identity);
         newHealthbar.transform.SetParent(uicanvas.transform,false);
+        if (newUnit.tag=="Enemy")
+        {
+            newHealthbar.GetComponent<Image>().color = Color.red;
+        }
+        else
+        {
+            newHealthbar.GetComponent<Image>().color = Color.green;
+        }
         healthBars.Add(newHealthbar);
     }
 

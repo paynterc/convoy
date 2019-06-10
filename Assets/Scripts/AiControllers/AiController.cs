@@ -6,13 +6,17 @@ public class AiController : AbstractUnitController
 {
     public float firingAngle = 5.0f;
     public float avoidDistance = 30.0f;
+    public RadarSystem _RadarSystem;
 
     public override void Init()
     {
         gameObject.layer = layer;
 
         thruster = GetComponent<Thruster>();
-        thruster.SetThrustV(1f);// Go forward        
+        thruster.SetThrustV(1f);// Go forward
+        _RadarSystem = GameObject.Find("RadarSystem").GetComponent<RadarSystem>();
+        _RadarSystem.AddRadarBlip(gameObject, Color.red, 0.5f);
+
 
         InitWeapons();
     }
@@ -74,5 +78,10 @@ public class AiController : AbstractUnitController
 
         }
 
+    }
+
+    public override void IsDestroyed()
+    {
+        _RadarSystem.RemoveRadarBlip(gameObject);
     }
 }

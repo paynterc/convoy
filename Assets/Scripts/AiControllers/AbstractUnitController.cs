@@ -86,4 +86,9 @@ public class AbstractUnitController : MonoBehaviour
     {
         // Apply logic when taking damage
     }
+
+    public virtual void IsDestroyed()
+    {
+
+    }
 }

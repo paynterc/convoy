@@ -51,6 +51,7 @@ public class Hull : MonoBehaviour
     public virtual void Explode()
     {
         explosion.Explode(transform.position);
+        myController.IsDestroyed();
         Destroy(gameObject);
     }
 

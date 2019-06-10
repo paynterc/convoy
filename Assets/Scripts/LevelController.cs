@@ -80,7 +80,7 @@ public class LevelController : MonoBehaviour
         // GameObject myObject = Instantiate(prefab, position, rotation) as GameObject;
         enemyPrefab = Resources.Load("EnemyShip");
         checkpointPrefab = Resources.Load("Checkpoint");
-        haulerPrefab = Resources.Load("Hauler2");
+        haulerPrefab = Resources.Load("Hauler3");
         cargoPrefab = Resources.Load("Cargo");
 
         spawnTimer = Time.time + 5.0f;
@@ -184,6 +184,7 @@ public class LevelController : MonoBehaviour
         }
         GameSingleton.Instance.levelStartTime = Mathf.Clamp(GameSingleton.Instance.levelStartTime + 20, levelStartMin, levelStartMax);
         GameSingleton.Instance.lieutenantOdds = Mathf.Clamp(GameSingleton.Instance.lieutenantOdds - 1,3,20);
+        GameSingleton.Instance.lieutenantsPerSpawn = Mathf.Clamp(GameSingleton.Instance.lieutenantsPerSpawn+1, 1, GameSingleton.Instance.maxLieutenants);
     }
 
     private void DecrementTimer()
@@ -254,7 +255,7 @@ public class LevelController : MonoBehaviour
         {
             // Spawn liutenants
             GameObject lType = lieutenants[Random.Range(0, lieutenants.Count - 1)];
-            int c = Random.Range(1, 5);
+            int c = Random.Range(1, GameSingleton.Instance.lieutenantsPerSpawn);
             int m = Random.Range(1, 3);
             int xx = Random.Range(100 * m, 300 * m);
             int yy = Random.Range(100 * m, 300 * m);
@@ -323,7 +324,7 @@ public class LevelController : MonoBehaviour
         {
             Vector3 startPos = new Vector3(0, 0, zz);
             SpawnHauler(startPos);
-            zz -= 40;
+            zz -= 80;
 
         }
         SetHaulerTargets();
@@ -337,9 +338,9 @@ public class LevelController : MonoBehaviour
         // Register the new hauler in the UI for a health overlay
         overlayUi.RegisterUnit(newHauler);
 
-        Vector3 startPos2 = new Vector3(startPos.x, startPos.y, startPos.z-8.0f);
-        GameObject newCargo = Instantiate(cargoPrefab, startPos2, Quaternion.identity) as GameObject;
-        newCargo.GetComponent<AiController>().target = newHauler.transform;
+        //Vector3 startPos2 = new Vector3(startPos.x, startPos.y, startPos.z-8.0f);
+        //GameObject newCargo = Instantiate(cargoPrefab, startPos2, Quaternion.identity) as GameObject;
+        //newCargo.GetComponent<AiController>().target = newHauler.transform;
     }
 
     public void ResetHaulerList()
@@ -405,6 +406,7 @@ public class LevelController : MonoBehaviour
     {
         savedHaulerCount++;
         haulersInPlayCount = haulersInPlayCount < 1 ? 0 : haulersInPlayCount - 1;
+        savedCargoCount++;// All haulers have cargo attached now. If it made it through, there is a cargo
         LevelStatus();
     }
 
