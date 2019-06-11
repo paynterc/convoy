@@ -9,7 +9,7 @@ public class Hull : MonoBehaviour
     protected Explosion explosion;
     private GameObject hitObject;
     private ParticleSystem hitPs;// particle effect for hits
-    private AbstractUnitController myController;
+    protected AbstractUnitController myController;
     private bool exploded = false;
 
     // Use this for initialization

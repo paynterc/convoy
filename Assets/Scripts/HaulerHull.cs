@@ -10,9 +10,10 @@ public class HaulerHull : Hull
     {
 
         EventManager.TriggerEvent("haulerDestroyed");
-
         Instantiate(cargoPrefab, transform.position, Quaternion.identity);
         explosion.Explode(transform.position);
+        myController.IsDestroyed();
+
         Destroy(gameObject);
     }
 

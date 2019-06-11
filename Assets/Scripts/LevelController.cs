@@ -357,7 +357,7 @@ public class LevelController : MonoBehaviour
         {
             GameObject hauler = haulers[i];
             if (!hauler) continue;
-            HaulerController h = hauler.GetComponent<HaulerController>();
+            AiHauler h = hauler.GetComponent<AiHauler>();
             if (wormholeStarted)
             {
                 h.SetTarget(wormhole.transform);

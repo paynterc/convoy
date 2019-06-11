@@ -10690,11 +10690,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7080474858333483033}
   - component: {fileID: 7080474858333483047}
-  - component: {fileID: 1090603768874609460}
   - component: {fileID: 8651011392981057481}
   - component: {fileID: 2023849220971462499}
   - component: {fileID: 4702756013071920204}
   - component: {fileID: 7080474858333483045}
+  - component: {fileID: 8314289007614852533}
   m_Layer: 0
   m_Name: Hauler3
   m_TagString: Hauler
@@ -10736,19 +10736,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1090603768874609460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7080474858333483046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd1ce64bfb2884387b0831f2dff5b572, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
 --- !u!114 &8651011392981057481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10913,6 +10900,28 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 12, y: 8, z: 12}
   m_Center: {x: 4, y: 0, z: -3}
+--- !u!114 &8314289007614852533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7080474858333483046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 123b719bfb0aa4c258f7ebb939469301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thruster: {fileID: 0}
+  weapons: []
+  autoDetectWeapons: 1
+  target: {fileID: 0}
+  layer: 8
+  targetTag: Hauler
+  targetTag2: Player
+  firingAngle: 5
+  avoidDistance: 30
+  radarColor: {r: 0, g: 1, b: 0.09454942, a: 1}
 --- !u!1 &7080474858455173821
 GameObject:
   m_ObjectHideFlags: 0

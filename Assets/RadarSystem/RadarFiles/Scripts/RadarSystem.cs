@@ -172,11 +172,11 @@ public class RadarSystem : MonoBehaviour
 				// Only update distance check every 20 cycles - This is optimisation for mobile usage
 				if (_frameCount-- < 0) {
                     _frameCount = 20;
-				    float distance = (_RadarBlips [i].Target.transform.position - CenterPoint.transform.position).magnitude;
+				    //float distance = (_RadarBlips [i].Target.transform.position - CenterPoint.transform.position).magnitude;
                     //distance = Mathf.Clamp(distance,0,maxRange);
 					
 				    // Specify RadarBlip opacity based on distance to center point
-				    _RadarBlips [i].BlipOpacity = Mathf.InverseLerp (RadarScale * 3, 0, distance);
+				    //_RadarBlips [i].BlipOpacity = Mathf.InverseLerp (RadarScale * 3, 0, distance);
 				}
 				
 				// Set all elements of individual Radar Blip as we loop through
