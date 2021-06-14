@@ -18,6 +18,11 @@ public class MissileController : Projectile
         base.Init();
         rotateSpeedCurr = rotateSpeedBase;
         rb = gameObject.GetComponent<Rigidbody>();
+        AssignTarget(targetTag);
+        if (!target)
+        {
+            AssignTarget(targetTag);
+        }
     }
     public override void UpdateActions()
     {
@@ -33,7 +38,6 @@ public class MissileController : Projectile
             if (target && target.gameObject.activeSelf)
             {
 
-                Debug.Log("TARGET GOOD");
                 targetDir = target.position - transform.position;
                 float dist = Vector3.Distance(target.position, transform.position);
                 RotateWithLook();
@@ -41,10 +45,10 @@ public class MissileController : Projectile
             }
             else
             {
-                AssignTarget(targetTag);
+                
                 if (!target)
                 {
-                    AssignTarget(targetTag2);
+                    AssignTarget(targetTag);
                 }
             }
             //rb.AddForce(new Vector3(0, 0, 1) * 10);
@@ -55,7 +59,8 @@ public class MissileController : Projectile
 
     public virtual void AssignTarget(string findTag)
     {
-        GameObject o = FindClosestTag(findTag);
+        //GameObject o = FindClosestTag(findTag);
+        GameObject o = FindClosestInFront(findTag,45,200);
         if (o != null)
         {
             target = o.transform;
@@ -86,10 +91,32 @@ public class MissileController : Projectile
         return closest;
     }
 
+    protected GameObject FindClosestInFront(string mytag, float maxAngle, float maxDistance)
+    {
+        GameObject targetGO = null;
+        GameObject[] enemies;
+        enemies = GameObject.FindGameObjectsWithTag(mytag);
+
+        float minDotProduct = Mathf.Cos(maxAngle * Mathf.Deg2Rad);
+        float targetDistanceSqrd = maxDistance * maxDistance;
+
+        foreach (GameObject go in enemies)
+        {
+            Vector3 relativePosition = go.transform.position - transform.position;
+
+            float distanceSqrd = relativePosition.sqrMagnitude;
+            if ((distanceSqrd < targetDistanceSqrd) && (Vector3.Dot(relativePosition.normalized, transform.forward) > minDotProduct))
+            {
+                targetDistanceSqrd = distanceSqrd;
+                targetGO = go;
+            }
+        }
+        return targetGO;
+    }
+
     public virtual void RotateWithLook()
     {
         // Rotate manually
-        Debug.Log("ROTATE GOOD");
         float step = rotateSpeedCurr * Time.deltaTime;
         Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0f);
         // Move our position a step closer to the target.

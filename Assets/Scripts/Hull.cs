@@ -11,7 +11,7 @@ public class Hull : MonoBehaviour
     private ParticleSystem hitPs;// particle effect for hits
     protected AbstractUnitController myController;
     private bool exploded = false;
-
+    protected AudioScript audioScript;
     // Use this for initialization
     void Start()
     {
@@ -20,6 +20,7 @@ public class Hull : MonoBehaviour
         hitObject = GameObject.Find("HitPulse");
         hitPs = hitObject.GetComponent<ParticleSystem>();
         myController = gameObject.GetComponent<AbstractUnitController>();
+        audioScript = GameObject.Find("AudioController").GetComponent<AudioScript>();
 
     }
 
@@ -52,6 +53,7 @@ public class Hull : MonoBehaviour
     {
         explosion.Explode(transform.position);
         myController.IsDestroyed();
+        audioScript.shipExplode();
         Destroy(gameObject);
     }
 

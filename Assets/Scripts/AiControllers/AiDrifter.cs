@@ -50,6 +50,10 @@ public class AiDrifter : AiController
         else
         {
             AssignTarget(targetTag);
+            if (!target)
+            {
+                AssignTarget(targetTag2);
+            }
         }
         if (target == null)
         {

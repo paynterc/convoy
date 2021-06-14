@@ -16,15 +16,21 @@ public class LevelController : MonoBehaviour
     private bool bossSpawned = false;
     private float spawnBossInterval = 120f;
     private int bossPerSpawn = 1;
+    public bool testBoss = false;
+
 
     private int haulerCount;// Haulers in inventory
     private int haulersInPlayCount;// Haulers on the field
     private int savedHaulerCount = 0;
     private int savedCargoCount = 0;
 
-    private float levelStartTime = 120f;
+    public float levelStartTime = 120f;
     private float levelStartMin = 120f;
     private float levelStartMax = 300f;
+
+    public float timePauseToNextScene = 4f;
+    private float timePauseToNextSceneRemaining;
+
 
     private float spawnTimer = 0f;
     private float spawnBossTimer = 0f;
@@ -52,16 +58,22 @@ public class LevelController : MonoBehaviour
 
     private UnityAction playerExitListener;
     private UnityAction haulerDeadListener;
+    private UnityAction playerDeadListener;
     private UnityAction haulerEnteredWormhole;
     private UnityAction cargoEnteredWormhole;
     private UnityAction lostHaulerListener;
 
+    private GameObject playerShip;
+    private Explosion explosion;
+    private bool levelComplete = false;
 
+    
 
     private void Awake()
     {
         playerExitListener = new UnityAction(CompleteLevelSuccess);
         haulerDeadListener = new UnityAction(HaulerDestroyed);
+        playerDeadListener = new UnityAction(PlayerDestroyed);
         haulerEnteredWormhole = new UnityAction(HaulerEnteredWormhole);
         cargoEnteredWormhole = new UnityAction(CargoEnteredWormhole);
         lostHaulerListener = new UnityAction(ResetHaulerList);
@@ -71,11 +83,15 @@ public class LevelController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Make the game run as fast as possible
+        //Application.targetFrameRate = 300;
 
         Time.timeScale = 1.0f;
         GameSingleton.Instance.SavedCargo = 0;
+        GameSingleton.Instance.BountiesCollected = 0;
         InitDifficulty();// Get stored vars in singleton
         levelRemainingTime = levelStartTime;
+        timePauseToNextSceneRemaining = timePauseToNextScene;
 
         // GameObject myObject = Instantiate(prefab, position, rotation) as GameObject;
         enemyPrefab = Resources.Load("EnemyShip");
@@ -89,22 +105,67 @@ public class LevelController : MonoBehaviour
         levelTimerText = GameObject.Find("CountdownText").GetComponent<Text>();
         gameUi = GameObject.Find("UIController").GetComponent<GameUI>();
         overlayUi = GameObject.Find("UIController").GetComponent<UnitOverlayUi>();
+        playerShip = GameObject.Find("PlayerShip");
+        GameObject.Find("PlayerCamera").GetComponent<MySmoothFollow>().target = playerShip.transform;
+        explosion = GameObject.Find("Explosion").GetComponent<Explosion>();
 
-        SetWormhole();
-        StartListeners();
-        CreateCheckpoints();
-        CreateHaulers();
+        if (testBoss)
+        {
+            StartListeners();
+            wormhole.SetActive(false);
 
-        LevelStatus();
+            int xx = Random.Range(100, 300);
+            int yy = Random.Range(100, 300);
+            int zz = Random.Range(100, 300);
+            Vector3 startPos = new Vector3(xx, yy, zz);
+            GameObject newBoss = Instantiate(bossPrefab, startPos, Quaternion.identity) as GameObject;
+            overlayUi.RegisterUnit(newBoss);
 
+        }
+        else
+        {
+            SetWormhole();
+            StartListeners();
+            CreateCheckpoints();
+            CreateHaulers();
+            LevelStatus();
+        }
+
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        DecrementTimer();
-        EnemySpawner();
-        SpawnBoss();
+
+        if (testBoss)
+        {
+            if (levelComplete)
+            {
+                timePauseToNextSceneRemaining -= Time.deltaTime;
+                if (timePauseToNextSceneRemaining <= 0)
+                {
+                    SceneManager.LoadScene("Intermission", LoadSceneMode.Single);
+                }
+            }
+        }
+        else
+        {
+            if (!levelComplete)
+            {
+                DecrementTimer();
+                EnemySpawner();
+                SpawnBoss();
+            }
+            else
+            {
+                timePauseToNextSceneRemaining -= Time.deltaTime;
+                if (timePauseToNextSceneRemaining <= 0)
+                {
+                    SceneManager.LoadScene("Intermission", LoadSceneMode.Single);
+                }
+            }
+        }
 
     }
 
@@ -123,6 +184,7 @@ public class LevelController : MonoBehaviour
     {
         EventManager.StartListening("playerExitedLevel", playerExitListener);
         EventManager.StartListening("haulerDestroyed", haulerDeadListener);
+        EventManager.StartListening("playerDestroyed", playerDeadListener);
         EventManager.StartListening("haulerEnteredWormhole", haulerEnteredWormhole);
         EventManager.StartListening("cargoEnteredWormhole", cargoEnteredWormhole);
         EventManager.StartListening("haulerLost", lostHaulerListener);
@@ -132,6 +194,7 @@ public class LevelController : MonoBehaviour
     {
         EventManager.StopListening("playerExitedLevel", playerExitListener);
         EventManager.StopListening("haulerDestroyed", haulerDeadListener);
+        EventManager.StopListening("playerDestroyed", playerDeadListener);
         EventManager.StopListening("haulerEnteredWormhole", haulerEnteredWormhole);
         EventManager.StopListening("cargoEnteredWormhole", cargoEnteredWormhole);
         EventManager.StopListening("haulerLost", lostHaulerListener);
@@ -143,6 +206,12 @@ public class LevelController : MonoBehaviour
     {
         UpdateGameData();
         SceneManager.LoadScene("Intermission", LoadSceneMode.Single);
+    }
+
+    private void PlayerDestroyed()
+    {
+        UpdateGameData();
+        levelComplete = true;
     }
 
     private void InitDifficulty()
@@ -239,10 +308,19 @@ public class LevelController : MonoBehaviour
             int yy = Random.Range(100 * m, 300 * m);
             int zz = Random.Range(100 * m, 300 * m);
             Vector3 startPos = new Vector3(xx, yy, zz);
+            float radius = 1f;
+
             for (int i=0; i<emyPerSpawn; i++)
             {
-                SpawnEnemy(startPos);
+                //Vector2 subPos = Random.insideUnitCircle * 1;
+                //Vector3 newPosition = new Vector3(subPos.x, 0, subPos.y) + startPos;
+                float angle = i * Mathf.PI * 2 / emyPerSpawn;
+                Vector3 subPos = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;
+                Vector3 newPos = subPos + startPos;
+                SpawnEnemy(newPos);
+               
             }
+            explosion.Explode(startPos);
             LieutenantSpawner();
         }
     }
@@ -305,6 +383,8 @@ public class LevelController : MonoBehaviour
         {
             SpawnCheckpoint(i);
         }
+        Vector3 startPos = new Vector3(0, 0, 0);
+        Instantiate(checkpointPrefab, startPos, Quaternion.identity);
     }
 
     private void SpawnCheckpoint(int m)
@@ -324,7 +404,7 @@ public class LevelController : MonoBehaviour
         {
             Vector3 startPos = new Vector3(0, 0, zz);
             SpawnHauler(startPos);
-            zz -= 80;
+            zz -= 160;
 
         }
         SetHaulerTargets();
@@ -436,4 +516,6 @@ public class LevelController : MonoBehaviour
         LevelStatus();
 
     }
+
+
 }

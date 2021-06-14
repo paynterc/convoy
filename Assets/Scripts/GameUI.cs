@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameUI : MonoBehaviour
 {
@@ -22,8 +23,10 @@ public class GameUI : MonoBehaviour
     private int haulerCount = 0;
     public Text haulerText;
     public Text savedHaulerText;
+    public Text missileText;
 
     private UnityAction playerDamageListener;
+    private UnityAction playerMissileFiredListener;
     private bool countCargo = false;
     private bool countHaulers = false;
 
@@ -42,10 +45,12 @@ public class GameUI : MonoBehaviour
     private Hull playerHull;
     protected Camera playercamera;
 
+    public GameObject ExitButton;
 
     void Awake()
     {
         playerDamageListener = new UnityAction(UpdateHullRing);
+        playerMissileFiredListener = new UnityAction(UpdateMissileText);
     }
 
     void Start()
@@ -53,6 +58,7 @@ public class GameUI : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         EventManager.StartListening("playerDamage", playerDamageListener);
+        EventManager.StartListening("missileFired", playerMissileFiredListener);
 
         player = GameObject.Find("PlayerShip");
         if (player!=null)
@@ -71,10 +77,18 @@ public class GameUI : MonoBehaviour
         zoomCooldownRing.fillAmount = 0f;
         UpdateSaveCargoText(0);
         UpdateSaveHaulerText(0);
+        UpdateMissileText();
+
+        ExitButton.SetActive(false);
     }
 
     void Update()
     {
+        if (Input.GetButtonDown("Pause"))
+        {
+            ExitButton.SetActive(!ExitButton.activeSelf);
+            Cursor.lockState = Cursor.lockState == CursorLockMode.None ? CursorLockMode.Locked: CursorLockMode.None;
+        }
         UpdateBoostRing();
         UpdateZoomDurationRing();
         UpdateZoomCooldownRing();
@@ -117,6 +131,7 @@ public class GameUI : MonoBehaviour
     private void StopListeners()
     {
         EventManager.StopListening("playerDamage", playerDamageListener);
+        EventManager.StopListening("missileFired", playerMissileFiredListener);
     }
 
 
@@ -135,6 +150,14 @@ public class GameUI : MonoBehaviour
         }
 
         return true;
+    }
+
+    private void UpdateMissileText()
+    {
+        if (missileText)
+        {
+            missileText.text = "MISSILES: " + GameSingleton.Instance.Missiles.ToString();
+        }
     }
 
     private bool UpdateZoomDurationRing()
@@ -201,5 +224,12 @@ public class GameUI : MonoBehaviour
     public void UpdateHullRing()
     {
         hullRing.fillAmount = playerHull.GetHullCurrent() / playerHull.hullBase;
+    }
+
+
+    public void ExitGame()
+    {
+        SceneManager.LoadScene("Intermission", LoadSceneMode.Single);
+        //Application.Quit();
     }
 }

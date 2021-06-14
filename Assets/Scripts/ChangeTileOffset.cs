@@ -8,14 +8,10 @@ public class ChangeTileOffset : MonoBehaviour
     public float yy=0;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         GetComponent<Renderer>().material.mainTextureOffset = new Vector2(xx, yy);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

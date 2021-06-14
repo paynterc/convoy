@@ -8,18 +8,20 @@ public class AiController : AbstractUnitController
     public float avoidDistance = 30.0f;
     protected RadarSystem _RadarSystem;
     public Color radarColor = Color.red;
+    protected int bounty = 0;
+    public int bountyLow = 0;
+    public int bountyHigh = 0;
 
     public override void Init()
     {
         gameObject.layer = layer;
-
         thruster = GetComponent<Thruster>();
         thruster.SetThrustV(1f);// Go forward
         _RadarSystem = GameObject.Find("RadarSystem").GetComponent<RadarSystem>();
         _RadarSystem.AddRadarBlip(gameObject, radarColor, 0.5f);
-
-
         InitWeapons();
+        bounty = Random.Range(bountyLow,bountyHigh);
+
     }
 
     public override void UpdateStep()
@@ -83,6 +85,8 @@ public class AiController : AbstractUnitController
 
     public override void IsDestroyed()
     {
+        GameSingleton.Instance.creditsCurrent += bounty;
+        GameSingleton.Instance.BountiesCollected += bounty;
         _RadarSystem.RemoveRadarBlip(gameObject);
     }
 }

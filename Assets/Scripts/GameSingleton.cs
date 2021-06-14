@@ -11,10 +11,12 @@
     public int LostCargo = 0;
     public int TotalSavedCargo = 0;
     public int TotalLostCargo = 0;
+    public int BountiesCollected;
 
-    public int HaulerCount = 3;
+    public int HaulerCount = 6;
     public int LostHaulers = 0;
     public int LostHaulersTotal = 0;
+    public int Missiles = 9;
 
     public int maxEmy = 6;
     public int emyPerSpawn = 6;
@@ -26,6 +28,9 @@
     public int lieutenantsPerSpawn = 2;
     public int maxLieutenants = 4;
     public float levelStartTime = 120f;
+    public int creditsStarting = 100;
+    public int creditsCurrent = 100;
+   
 
     public void DecrementHauler()
     {

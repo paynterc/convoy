@@ -4925,12 +4925,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thruster: {fileID: 0}
   weapons: []
+  autoDetectWeapons: 1
   target: {fileID: 0}
   layer: 9
   targetTag: Player
   targetTag2: Hauler
   firingAngle: 15
   avoidDistance: 30
+  radarColor: {r: 1, g: 0, b: 0, a: 1}
+  bountyLow: 300
+  bountyHigh: 400
   retargetRate: 15
   changeDirRate: 3
   reactionTime: 0.5
@@ -5595,6 +5599,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sphere 09 PS (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.rotation3D
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4862408309730960560, guid: a13fdcad774604f8e9d142a130f439ef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5650,26 +5674,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 180
       objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSize.minScalar
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.rotation3D
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSpeed.scalar
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a13fdcad774604f8e9d142a130f439ef, type: 3}
 --- !u!4 &6515489494277489858 stripped
@@ -5695,6 +5699,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Sphere 09 PS (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.rotation3D
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4862408309730960560, guid: a13fdcad774604f8e9d142a130f439ef,
         type: 3}
@@ -5750,26 +5774,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSize.minScalar
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.rotation3D
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSpeed.scalar
-      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a13fdcad774604f8e9d142a130f439ef, type: 3}
@@ -5979,6 +5983,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sphere 09 PS (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.rotation3D
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4862408309730960560, guid: a13fdcad774604f8e9d142a130f439ef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6034,26 +6058,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSize.minScalar
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.rotation3D
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSpeed.scalar
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a13fdcad774604f8e9d142a130f439ef, type: 3}
 --- !u!4 &842160020375210406 stripped
@@ -6073,6 +6077,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Sphere 09 PS (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.rotation3D
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4862408309730960560, guid: a13fdcad774604f8e9d142a130f439ef,
         type: 3}
@@ -6128,26 +6152,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSize.minScalar
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.rotation3D
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSpeed.scalar
-      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a13fdcad774604f8e9d142a130f439ef, type: 3}
@@ -6169,6 +6173,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sphere 09 PS (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.rotation3D
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4862408309730960560, guid: a13fdcad774604f8e9d142a130f439ef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6224,26 +6248,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSize.minScalar
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.rotation3D
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSpeed.scalar
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a13fdcad774604f8e9d142a130f439ef, type: 3}
 --- !u!4 &2663073876571590641 stripped
@@ -6263,6 +6267,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Sphere 09 PS (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.rotation3D
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4862408309730960560, guid: a13fdcad774604f8e9d142a130f439ef,
         type: 3}
@@ -6319,26 +6343,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSize.minScalar
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.rotation3D
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSpeed.scalar
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a13fdcad774604f8e9d142a130f439ef, type: 3}
 --- !u!4 &3142310756957147128 stripped
@@ -6364,6 +6368,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Sphere 09 PS (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.rotation3D
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4862408309730960560, guid: a13fdcad774604f8e9d142a130f439ef,
         type: 3}
@@ -6420,26 +6444,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSize.minScalar
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.rotation3D
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSpeed.scalar
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a13fdcad774604f8e9d142a130f439ef, type: 3}
 --- !u!4 &3033852794655252153 stripped
@@ -6459,6 +6463,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Sphere 09 PS (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.rotation3D
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4862408309730960560, guid: a13fdcad774604f8e9d142a130f439ef,
         type: 3}
@@ -6514,26 +6538,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSize.minScalar
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.rotation3D
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862408309745115632, guid: a13fdcad774604f8e9d142a130f439ef,
-        type: 3}
-      propertyPath: InitialModule.startSpeed.scalar
-      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a13fdcad774604f8e9d142a130f439ef, type: 3}

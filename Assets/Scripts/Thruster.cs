@@ -27,6 +27,8 @@ public class Thruster : MonoBehaviour
     public float rotateSpeedCurr;
     public float rotateDragBase = 2.0f;
     public float rotateDragCurr;
+    public float rollSpeedBase = 1.0f;
+    public float rollSpeedCurr;
 
     // Timers
     public float boostRateBase = 2.0f;// Time between boosts
@@ -44,12 +46,16 @@ public class Thruster : MonoBehaviour
     public ParticleSystem psRight;
     public ParticleSystem psFront;
     public ParticleSystem psBack;
+    public Transform psBackTransform;
     public ParticleSystem psTop;
     public ParticleSystem psBottom;
     private ParticleSystem.MinMaxCurve boostCurve = new ParticleSystem.MinMaxCurve(2.0f, 0.5f);
     private ParticleSystem.MinMaxCurve normalCurve = new ParticleSystem.MinMaxCurve(0.75f, 0.5f);
     private ParticleSystem.MainModule pMain;
     private bool pMainSet = false;
+
+    private Vector3 rearThrustScale1 = new Vector3(2.0f, 2.0f, 2.0f);
+    private Vector3 rearThrustScale2 = new Vector3(2.0f, 14.0f, 2.0f);
 
     // Start is called before the first frame update
     void Start()
@@ -89,8 +95,9 @@ public class Thruster : MonoBehaviour
         {
             int left = thrustHorizontal > 0 || rotateH > 0 ? 1 : 0;
             int right = thrustHorizontal < 0 || rotateH < 0  ? 1 : 0;
-            int front = thrustVertical  < 0 || rotateV < 0 ? 1 : 0;
-            int back = thrustVertical > 0 || rotateV > 0 ? 1 : 0;
+            //int front = thrustVertical  < 0 || rotateV < 0 ? 1 : 0;
+            int front = 0;
+            int back = thrustVertical > 0 || boosting ? 1 : 0;
             int top = thrustY < 0  ? 1 : 0;
             int bottom = thrustY > 0 ? 1 : 0;
             SetThrusterEffects(left, right, front, back, top, bottom);
@@ -101,7 +108,22 @@ public class Thruster : MonoBehaviour
     // Turn effect on and off. 0 for off, 1 for on
     public virtual void SetThrusterEffects(int left, int right, int front, int back, int top, int bottom)
     {
-        
+
+        try{
+            if (boostCooldownTimer > Time.time && psBackTransform)
+            {
+                psBackTransform.localScale = rearThrustScale2;
+            }
+            else
+            {
+                psBackTransform.localScale = rearThrustScale1;
+            }
+        }
+        catch
+        {
+
+        }
+
 
 
         if (psLeft)
@@ -136,6 +158,7 @@ public class Thruster : MonoBehaviour
     {
         thrustSpeedCurr = thrustSpeedBase;
         rotateSpeedCurr = rotateSpeedBase;
+        rollSpeedCurr = rollSpeedBase;
         thrustDragCurr = thrustDragBase;
         rotateDragCurr = rotateDragBase;
         boostRateCurr = boostRateBase;
@@ -157,7 +180,7 @@ public class Thruster : MonoBehaviour
     public virtual void RotateWithPhysics()
     {
         // Rotation with physics
-        rb.AddRelativeTorque(rotateSpeedCurr * rotateV, rotateSpeedCurr * rotateH, rotateSpeedCurr * rotateZ);
+        rb.AddRelativeTorque(rotateSpeedCurr * rotateV, rotateSpeedCurr * rotateH, rollSpeedCurr * rotateZ);
     }
 
     public virtual void RotateWithLook()

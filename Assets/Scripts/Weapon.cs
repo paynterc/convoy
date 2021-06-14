@@ -12,6 +12,7 @@ public class Weapon : MonoBehaviour
 
     public float damage=1;
     public float range = 100f;
+    public int ammo = -1;
 
     protected RaycastHit hit;
     protected LineRenderer line;
@@ -24,6 +25,9 @@ public class Weapon : MonoBehaviour
     public LayerMask layerMask = 1 << 8;
     public Material lineMaterial;
     public ParticleSystem muzzleFlash;
+    public string nameString;
+    public AudioClip weaponSound;
+    public AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
@@ -77,7 +81,8 @@ public class Weapon : MonoBehaviour
                 line.enabled = true;
                 // position line here if wanted
                 line.SetPosition(0, transform.position);
-                line.SetPosition(1, transform.position + (transform.forward * range));
+                //line.SetPosition(1, transform.position + (transform.forward * range));
+                line.SetPosition(1, transform.position + (playercamera.transform.forward * range));
             }
             else
             {
@@ -94,7 +99,12 @@ public class Weapon : MonoBehaviour
         fireTimer = Time.time + fireDuration;
         // Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask)
         // Raycast from gun. Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, range)
-        if(muzzleFlash) muzzleFlash.Play();
+        //if(muzzleFlash) muzzleFlash.Play();
+        if (audioSource)
+        {
+            audioSource.PlayOneShot(weaponSound);
+
+        }
 
         if (line)
         {

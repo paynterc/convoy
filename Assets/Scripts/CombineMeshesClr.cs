@@ -26,27 +26,30 @@ public class CombineMeshesClr : MonoBehaviour
 
         MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
 
+
+
         //Loop through all children
         for (int j = 0; j < meshFilters.Length; j++)
         {
             MeshFilter meshFilter = meshFilters[j];
             CombineInstance combine = new CombineInstance();
             MeshRenderer meshRender = meshFilter.GetComponent<MeshRenderer>();
+            //Modify the material name, because Unity adds (Instance) to the end of the name
+            string materialName = meshRender.material.name.Replace(" (Instance)", "");
 
-            combine.mesh = meshFilter.mesh;
+            combine.mesh = meshFilter.sharedMesh;
             combine.transform = meshFilter.transform.localToWorldMatrix;
-
-            if (meshRender.material == color1)
+            
+            if (materialName == "RedMaterial")
             {
                 clrList1.Add(combine);
             }
-            else if (meshRender.material == color2)
+            else if (materialName == "NewMat2")
             {
                 clrList2.Add(combine);
             }
             else
             {
-                meshRender.material = color3;
                 clrList3.Add(combine);
             }
             meshFilters[j].gameObject.SetActive(false);
@@ -64,6 +67,8 @@ public class CombineMeshesClr : MonoBehaviour
         Mesh combinedColor3 = new Mesh();
         combinedColor3.CombineMeshes(clrList3.ToArray());
 
+
+
         //Create the array that will form the combined mesh
         CombineInstance[] totalMesh = new CombineInstance[3];
 
@@ -78,10 +83,15 @@ public class CombineMeshesClr : MonoBehaviour
 
         //Create the final combined mesh
         Mesh combinedAllMesh = new Mesh();
-       
+
+        Debug.Log("length1 " + clrList1.ToArray().Length.ToString());
+        Debug.Log("length2 " + clrList2.ToArray().Length.ToString());
+        Debug.Log("length3 " + clrList3.ToArray().Length.ToString());
+
         //Make sure it's set to false to get 3 separate meshes
         combinedAllMesh.CombineMeshes(totalMesh, false);
-        transform.GetComponent<MeshFilter>().mesh = combinedColor1;
+        transform.GetComponent<MeshFilter>().mesh = combinedAllMesh;
+
         transform.position = new Vector3(0, 0, 0);
         transform.gameObject.SetActive(true);
     }

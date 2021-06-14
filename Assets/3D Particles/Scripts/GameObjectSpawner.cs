@@ -25,7 +25,7 @@ public class GameObjectSpawner:MonoBehaviour{
     public string removeTextFromButton;	//Unwanted text 
     public string removeTextFromMaterialButton;//Unwanted text 
     public float autoChangeDelay;
-    public GUITexture image;
+    //public GUITexture image;
     
     //Hidden properties
     int page = 0;			//Current page
@@ -62,17 +62,17 @@ public class GameObjectSpawner:MonoBehaviour{
     
     public void Update() {
     	
-    	if(Input.GetKeyDown(KeyCode.Space)) {
-        	if(_active){
-        		_active = false;
-        		if(image != null)
-        		image.enabled = false;
-        	}else{
-        		_active = true;
-        		if(image != null)
-        		image.enabled = true;
-        	}
-    	}
+    	//if(Input.GetKeyDown(KeyCode.Space)) {
+     //   	if(_active){
+     //   		_active = false;
+     //   		if(image != null)
+     //   		image.enabled = false;
+     //   	}else{
+     //   		_active = true;
+     //   		if(image != null)
+     //   		image.enabled = true;
+     //   	}
+    	//}
     	if(Input.GetKeyDown(KeyCode.RightArrow)) {
     		NextModel ();
     	}
@@ -177,11 +177,11 @@ public class GameObjectSpawner:MonoBehaviour{
     		}
     	}
     	}
-    	if(image != null){
-    			var tmp_cs1 = image.pixelInset;
-                tmp_cs1.x = (float)((Screen.width) -(image.texture.width) );
-                image.pixelInset = tmp_cs1;
-    		}
+    	//if(image != null){
+    	//		var tmp_cs1 = image.pixelInset;
+     //           tmp_cs1.x = (float)((Screen.width) -(image.texture.width) );
+     //           image.pixelInset = tmp_cs1;
+    	//	}
     }
     
     public void Info(GameObject go,int i) {

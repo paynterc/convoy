@@ -21,11 +21,12 @@ public class PlayerController : AbstractUnitController
     private float zoomCooldownTimer = 0f;
     private bool zoomed;
 
+
     // Time slow
     private float timeMax = 1.0f;
     public float timeMin = 0.5f;
 
-
+    private AudioScript audioScript;
 
     public override void Init()
     {
@@ -36,6 +37,7 @@ public class PlayerController : AbstractUnitController
         fovMax = playercamera.fieldOfView;
         fov = fovMax;
         weapons = GetComponentsInChildren<Weapon>();
+        audioScript = GameObject.Find("AudioController").GetComponent<AudioScript>();
         InitWeapons();
     }
 
@@ -48,6 +50,7 @@ public class PlayerController : AbstractUnitController
         //thruster.targetDir = tgtPosition - transform.position;
 
 
+
         if (Input.GetButtonDown("Boost"))
         {
             thruster.StartBoost();
@@ -55,11 +58,28 @@ public class PlayerController : AbstractUnitController
 
         if (Input.GetButton("Fire1"))
         {
-
-            for (int i = 0; i < weapons.Length; i++)
+            if (weapons.Length > 0)
             {
-                weapons[i].Fire();// Fire a burst
+                weapons[0].Fire();// Fire a burst
             }
+            
+            //for (int i = 0; i < weapons.Length; i++)
+            //{
+            //    weapons[i].Fire();// Fire a burst
+            //}
+        }
+
+        if (Input.GetButton("Fire3"))
+        {
+            if (weapons.Length > 1)
+            {
+                weapons[1].Fire();// Fire a burst
+            }
+
+            //for (int i = 0; i < weapons.Length; i++)
+            //{
+            //    weapons[i].Fire();// Fire a burst
+            //}
         }
 
         // -1 = zoom in, 1 = zoom out
@@ -160,6 +180,7 @@ public class PlayerController : AbstractUnitController
     public override void TakingDamage()
     {
         // Apply logic when taking damage
+        audioScript.playerHit();
         EventManager.TriggerEvent("playerDamage");
     }
 

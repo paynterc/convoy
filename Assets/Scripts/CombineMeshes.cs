@@ -20,7 +20,7 @@ public class CombineMeshes : MonoBehaviour
         {
             if (meshFilters[j].mesh!=null)
             {
-                combine[i].mesh = meshFilters[j].mesh;
+                combine[i].mesh = meshFilters[j].sharedMesh;
                 combine[i].transform = meshFilters[j].transform.localToWorldMatrix;
                 meshFilters[j].gameObject.SetActive(false);
 
@@ -30,7 +30,7 @@ public class CombineMeshes : MonoBehaviour
 
         transform.GetComponent<MeshFilter>().mesh = new Mesh();
         transform.GetComponent<MeshFilter>().mesh.CombineMeshes(combine);
-        MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
+        //MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
         //meshRenderer.material = material;
         transform.position = new Vector3(0, 0, 0);
 

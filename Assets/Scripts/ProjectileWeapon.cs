@@ -8,13 +8,19 @@ public class ProjectileWeapon : BurstWeapon
     public float bulletSpeed = 200f;
     public float bulletLife = 5.0f;
     public bool createPool = false;
-    public float createForward = 10.0f;// Instantiate bullets a certain amount forward to avoid self-collision
-    private Pool pool;
-    private GameObject bullet;
-    public int poolSize = 20;
+    public float createForward = 5.0f;// Instantiate bullets a certain amount forward to avoid self-collision
+    protected Pool pool;
+    protected  GameObject bullet;
+    protected int poolSize = 20;
 
     public override void Init()
     {
+        if (GameObject.Find("PlayerCamera"))
+        {
+            playercamera = GameObject.Find("PlayerCamera").GetComponent<Camera>();
+
+        }
+
         if (createPool)
         {
             pool = new Pool(projectile, poolSize);
@@ -44,14 +50,31 @@ public class ProjectileWeapon : BurstWeapon
         P.duration = bulletLife;
         P.pooled = createPool;
         P.speed = bulletSpeed;
+        P.layerMask = layerMask;
         P.Init();
         bullet.SetActive(true);
         if (bulletSpeed>0)
         {
+
+            if (origin == 0)
+            {
+                //bullet.GetComponent<Rigidbody>().velocity = playercamera.transform.forward * bulletSpeed;
+
+                Vector3 aimSpot = playercamera.transform.position;
+                //You will want to play around with the 50 to make it feel accurate.
+                aimSpot += playercamera.transform.forward * range;
+                transform.LookAt(aimSpot);
+
+            }
+
             bullet.GetComponent<Rigidbody>().velocity = transform.forward * bulletSpeed;
         }
 
+        if (audioSource)
+        {
+            audioSource.PlayOneShot(weaponSound);
 
+        }
 
     }
 

@@ -14,6 +14,7 @@ public class IntermissionUI : MonoBehaviour
     public Text haulersRemaining;
     public Text haulersLost;
     public Text haulersLostTotal;
+    public Text bountiesCollected;
 
     // Start is called before the first frame update
     void Start()
@@ -27,11 +28,18 @@ public class IntermissionUI : MonoBehaviour
         haulersRemaining.text = GameSingleton.Instance.HaulerCount.ToString();
         haulersLost.text = GameSingleton.Instance.LostHaulers.ToString();
         haulersLostTotal.text = GameSingleton.Instance.LostHaulersTotal.ToString();
+
+        bountiesCollected.text = GameSingleton.Instance.BountiesCollected.ToString();
     }
 
     public void GoToNextLevel()
     {
         GameSingleton.Instance.GameLevel++;
         SceneManager.LoadScene("Level", LoadSceneMode.Single);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

@@ -7,15 +7,10 @@ public class ColorMe : MonoBehaviour
     public Color colorStart = Color.red;
     Renderer rend;
 
-    void Start()
+    void Awake()
     {
         rend = GetComponent<Renderer>();
         rend.material.color = colorStart;
     }
 
-    void Update()
-    {
-
-
-    }
 }
