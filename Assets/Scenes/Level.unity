@@ -3377,9 +3377,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 24188027486809704}
-  distance: 5
-  height: 12
-  rotationDamping: 7
+  distance: 15
+  height: 25
+  rotationDamping: 17
   heightDamping: 10
 --- !u!1001 &24188028359884588
 PrefabInstance:
